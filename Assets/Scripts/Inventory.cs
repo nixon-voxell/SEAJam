@@ -30,6 +30,14 @@ public class Inventory : MonoBehaviour
         image.color = item.GetColor();
     }
 
+    public void RemoveItem()
+    {
+        this.m_Items[this.m_CurrActiveSlot] = null;
+        var image = this.m_SlotImgs[this.m_CurrActiveSlot];
+        image.sprite = null;
+        image.color = this.m_ActiveColor;
+    }
+
     private void Awake()
     {
         Inventory.Singleton = this;
@@ -52,6 +60,20 @@ public class Inventory : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             ActivateSlot(1);
+        }
+
+        var currItem = this.m_Items[this.m_CurrActiveSlot];
+        if (currItem != null)
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                currItem.UseItem();
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                currItem.DropItem();
+            }
         }
     }
 
