@@ -18,6 +18,9 @@ public class Flashlight : UsableItemBase
         GameObject player = PlayerSingleton.Player;
         this.transform.SetParent(player.transform);
         this.transform.SetLocalPositionAndRotation(this.m_PositionOffset, Quaternion.identity);
+
+        Inventory inventory = Inventory.Singleton;
+        inventory.SlotItem(this);
     }
 
     public void RefillBattery()

@@ -151,7 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1da7066da58dd46a4a71c702217b1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 21300000, guid: 87b0b6e5f0b1198428c189e85d75f4e9, type: 3}
+  m_Color: {r: 1, g: 0.81960785, b: 0, a: 1}
   m_Light: {fileID: 504796672}
   m_MaxBatteryLevel: 100
   m_DepletionFactor: 10
@@ -800,8 +801,8 @@ Transform:
   m_GameObject: {fileID: 1182143808}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalPosition: {x: 0.06, y: 0, z: 0}
+  m_LocalScale: {x: 7, y: 7, z: 7}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 67306419}
@@ -847,7 +848,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: bd3cb4af8406d4436a2ae8c2aafe1f8d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 87b0b6e5f0b1198428c189e85d75f4e9, type: 3}
   m_Color: {r: 1, g: 0.81960785, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1173,10 +1174,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d426cb2a7d2e524782a5ee392b1d1fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Slot1: {fileID: 424292081}
-  m_Slot2: {fileID: 498892450}
-  m_ActivationScale: 1.05
-  m_DeactivationScale: 1
+  m_SlotImgs:
+  - {fileID: 424292083}
+  - {fileID: 498892452}
+  m_Items: []
+  m_EnlargeScale: 1.05
   m_AnimationDuration: 0.2
   m_AnimationEase: 6
   m_ActiveColor: {r: 1, g: 1, b: 0.8, a: 1}
@@ -1330,8 +1332,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: ProximityPrompt
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5571849536359400732, guid: a9932c9489f1601438431f2f97cf2d3d, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

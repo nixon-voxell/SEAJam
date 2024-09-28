@@ -1,13 +1,18 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class UsableItemBase : MonoBehaviour
 {
-    [SerializeField] private Image m_Icon;
+    [SerializeField] private Sprite m_Icon;
+    [SerializeField] private Color m_Color = Color.white;
 
-    public Image GetImage()
+    public Sprite GetSprite()
     {
         return this.m_Icon;
+    }
+
+    public Color GetColor()
+    {
+        return this.m_Color;
     }
 
     public abstract bool UseItem();
