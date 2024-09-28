@@ -1,14 +1,6 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Prefabs/Player.prefab.meta
-guid: f3f55b1b1a4251e408a957642c3c1d3d
-PrefabImporter:
-|||||||| d3d9d00:Assets/Plugins/Demigiant/DOTween/Modules/DOTween.Modules.asmdef.meta
-guid: 47770a4c24dbcad43abc9d296da6bc49
-AssemblyDefinitionImporter:
-========
-guid: 5b5e4e652d48d1a45a4c8758d0209a52
+guid: 04fed0b3fe198e54d86775fb4baa78a5
 DefaultImporter:
->>>>>>>> main:Assets/Scenes/MapTest.unity.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
