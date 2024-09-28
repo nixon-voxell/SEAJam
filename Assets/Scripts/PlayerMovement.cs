@@ -33,7 +33,11 @@ public class PlayerMovement : MonoBehaviour
             targetSpeed += this.m_BoostSpeed;
         }
 
-        this.m_CurrSpeed = Mathf.Lerp(this.m_CurrSpeed, targetSpeed, this.m_SpeedLerpFactor * Time.deltaTime);
+        this.m_CurrSpeed = Mathf.Lerp(
+            this.m_CurrSpeed,
+            targetSpeed,
+            this.m_SpeedLerpFactor * Time.deltaTime
+        );
 
         // Move the player based on input.
         this.transform.position += movement * this.m_CurrSpeed * Time.deltaTime;
