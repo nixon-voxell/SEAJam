@@ -16,12 +16,20 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D m_Rigidbody;
     private Vector3 m_TargetPosition;
 
+    public delegate void OverridePlayerControl(bool allowControl);
+    public static OverridePlayerControl OnOverridePlayerControl;
+
     private void Awake()
     {
         this.m_CurrSpeed = 0.0f;
         this.m_Stamina.Init();
         this.m_Rigidbody = this.GetComponent<Rigidbody2D>();
         this.m_TargetPosition = this.transform.position;
+    }
+
+    private void Start()
+    {
+        OnOverridePlayerControl += TogglePlayerControl;
     }
 
     private void FixedUpdate()
@@ -49,11 +57,19 @@ public class PlayerMovement : MonoBehaviour
         this.m_TargetPosition += movement * this.m_CurrSpeed * Time.deltaTime;
         this.m_Rigidbody.MovePosition(this.m_TargetPosition);
 
-
         if (movement == Vector3.zero)
         {
             this.m_Stamina.RegenStamina();
         }
+    }
+
+    private void OnDestroy()
+    {
+        OnOverridePlayerControl = null;
+    }
+    void TogglePlayerControl(bool allowControl)
+    {
+        this.enabled = allowControl;
     }
 }
 

@@ -9,4 +9,9 @@ public static class ExtensionMethods
         canvasGroup.alpha = active ? 1 : 0;
         canvasGroup.blocksRaycasts = active;
     }
+
+    public static Vector2 xy(this Vector3 position)
+    {
+        return new Vector2 (position.x, position.y);
+    }
 }

@@ -24,7 +24,7 @@ public class ProximityPromptSystem : MonoBehaviour, IInteractable
         HidePrompt(true);
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         if (playerInRange && Input.GetKeyDown(interactKey))
         {
