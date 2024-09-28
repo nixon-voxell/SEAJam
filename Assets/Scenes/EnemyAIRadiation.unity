@@ -139,10 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8f37dcb61678d2499b4e1525bcfa015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Icon: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_PositionOffset: {x: 0, y: 0, z: 0}
-  m_Proximity: {fileID: 0}
+  interactionRadius: 2
 --- !u!1 &67306416
 GameObject:
   m_ObjectHideFlags: 0
@@ -1559,6 +1556,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   geigerUI: {fileID: 1014887836}
   batteryOverlay: {fileID: 1643086931}
+  playerFlashlight: {fileID: 0}
+  geigerCounterBattery: {fileID: 0}
 --- !u!4 &1237638842
 Transform:
   m_ObjectHideFlags: 0
@@ -1736,6 +1735,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Speed: 10
   m_TargetTransform: {fileID: 1353096266}
+  m_IsFollowing: 0
 --- !u!1 &1532805242
 GameObject:
   m_ObjectHideFlags: 0
@@ -2044,9 +2044,11 @@ MonoBehaviour:
   flashlightButton: {fileID: 1668200193}
   geigerButton: {fileID: 1849589515}
   useLabel: {fileID: 563033715}
-  animationDuration: 0.5
-  hiddenPosition: {x: 0, y: -100, z: 0}
-  visiblePosition: {x: 0, y: 0, z: 0}
+  popInDuration: 0.3
+  popOutDuration: 0.2
+  startScale: 0.8
+  popInEase: 27
+  popOutEase: 26
 --- !u!1 &1668200191
 GameObject:
   m_ObjectHideFlags: 0
@@ -2349,132 +2351,6 @@ MonoBehaviour:
   m_AnimationEase: 6
   m_ActiveColor: {r: 1, g: 1, b: 0.8, a: 1}
   m_InactiveColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!1 &2031401114
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2031401115}
-  - component: {fileID: 2031401117}
-  - component: {fileID: 2031401116}
-  - component: {fileID: 2031401118}
-  m_Layer: 0
-  m_Name: PlayerAnim
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2031401115
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2031401114}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.1, y: 0.07, z: 0}
-  m_LocalScale: {x: 7.0205, y: 7.0205, z: 7.0205}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1353096266}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &2031401116
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2031401114}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f531866e332d6264daaec846859d070e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!95 &2031401117
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2031401114}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7a44f01ab03673442bf77fd442a4aa2a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2031401118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2031401114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05fe759a433c27f4fb0d972e66e56f0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  idleUpAnim: {fileID: 7400000, guid: 47ff4e3130565a9438e70899872b1f6a, type: 2}
-  idleDownAnim: {fileID: 7400000, guid: 8ba582d181be113439adc36eb61b5a68, type: 2}
-  idleSideAnim: {fileID: 7400000, guid: dda478d066c1197408cdb66c23f8df31, type: 2}
-  walkUpAnim: {fileID: 7400000, guid: af714cfd43419654ab0d465ef5d2249f, type: 2}
-  walkDownAnim: {fileID: 7400000, guid: 494bd4618bc120d458d5f5b2dce6a7b7, type: 2}
-  walkSideAnim: {fileID: 7400000, guid: 8520aaf1e23f0244abc28bc88e6f7c17, type: 2}
 --- !u!1 &2114276686
 GameObject:
   m_ObjectHideFlags: 0
@@ -2664,10 +2540,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 8413336706857840703, guid: f3f55b1b1a4251e408a957642c3c1d3d, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3839870354839226257, guid: f3f55b1b1a4251e408a957642c3c1d3d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2031401115}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3f55b1b1a4251e408a957642c3c1d3d, type: 3}
 --- !u!114 &1737773736344907285
@@ -2989,6 +2862,14 @@ MonoBehaviour:
   moveSpeed: 2
   idleTime: 2
   isHorizontal: 1
+  startFacingRight: 1
+  animator: {fileID: 0}
+  idleUpAnim: {fileID: 0}
+  idleDownAnim: {fileID: 0}
+  idleSideAnim: {fileID: 0}
+  walkUpAnim: {fileID: 0}
+  walkDownAnim: {fileID: 0}
+  walkSideAnim: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
