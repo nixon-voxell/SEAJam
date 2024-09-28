@@ -11,9 +11,9 @@ public class PlayerAnimController : MonoBehaviour
     public AnimationClip walkSideAnim;
 
     private Vector2 movement;
+    private Vector2 lastNonZeroMovement;
     private bool isFacingRight = true;
     private string currentState;
-    private Vector2 lastNonZeroMovement;
 
     private void Start()
     {
@@ -21,9 +21,7 @@ public class PlayerAnimController : MonoBehaviour
         {
             animator = GetComponent<Animator>();
         }
-        PlayAnimation("IdleDown");
-        currentState = "IdleDown";
-        lastNonZeroMovement = Vector2.down;
+        lastNonZeroMovement = Vector2.down; 
     }
 
     private void Update()
@@ -32,7 +30,7 @@ public class PlayerAnimController : MonoBehaviour
         float moveVertical = Input.GetAxisRaw("Vertical");
 
         movement = new Vector2(moveHorizontal, moveVertical).normalized;
-        bool isMoving = movement.magnitude > 0.1f;
+        bool isMoving = movement.magnitude > 0;
 
         if (isMoving)
         {
@@ -48,14 +46,8 @@ public class PlayerAnimController : MonoBehaviour
 
         if (moveHorizontal != 0)
         {
-            if (moveHorizontal > 0 && isFacingRight)
-            {
-                Flip();
-            }
-            else if (moveHorizontal < 0 && !isFacingRight)
-            {
-                Flip();
-            }
+            isFacingRight = (moveHorizontal < 0); 
+            UpdateFacingDirection();
         }
     }
 
@@ -98,31 +90,39 @@ public class PlayerAnimController : MonoBehaviour
         switch (stateName)
         {
             case "IdleUp":
-                if (idleUpAnim) animator.Play(idleUpAnim.name);
+                if (idleUpAnim != null)
+                    animator.Play(idleUpAnim.name);
                 break;
             case "IdleDown":
-                if (idleDownAnim) animator.Play(idleDownAnim.name);
+                if (idleDownAnim != null)
+                    animator.Play(idleDownAnim.name);
                 break;
             case "IdleSide":
-                if (idleSideAnim) animator.Play(idleSideAnim.name);
+                if (idleSideAnim != null)
+                    animator.Play(idleSideAnim.name);
                 break;
             case "WalkUp":
-                if (walkUpAnim) animator.Play(walkUpAnim.name);
+                if (walkUpAnim != null)
+                    animator.Play(walkUpAnim.name);
                 break;
             case "WalkDown":
-                if (walkDownAnim) animator.Play(walkDownAnim.name);
+                if (walkDownAnim != null)
+                    animator.Play(walkDownAnim.name);
                 break;
             case "WalkSide":
-                if (walkSideAnim) animator.Play(walkSideAnim.name);
+                if (walkSideAnim != null)
+                    animator.Play(walkSideAnim.name);
+                break;
+            default:
+                Debug.LogWarning($"Animation state '{stateName}' not recognized.");
                 break;
         }
     }
 
-    private void Flip()
+    private void UpdateFacingDirection()
     {
-        isFacingRight = !isFacingRight;
         Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
+        theScale.x = Mathf.Abs(theScale.x) * (isFacingRight ? 1 : -1); 
         transform.localScale = theScale;
     }
 }
