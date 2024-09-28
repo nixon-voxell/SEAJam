@@ -4,12 +4,15 @@ public class CameraFollow : MonoBehaviour
 {
     [SerializeField] private float m_Speed;
     [SerializeField] private Transform m_TargetTransform;
-    public GameObject movementRange;
-    private bool m_IsFollowing;
+    //Attach game object which is a trigger for limit camera follow within a range
+    //Remember attach "TriggerCameraFollow" on this game object
+    [SerializeField] private GameObject movementRange;
+    [SerializeField] private bool m_IsFollowing;
     
     
     private void Update()
     {
+        //Getitng script called "TriggerCameraFollow" from the game object.
         m_IsFollowing = movementRange.GetComponent<TriggerCameraFollow>().c_EnableFollow;
 
         if (m_IsFollowing == true)

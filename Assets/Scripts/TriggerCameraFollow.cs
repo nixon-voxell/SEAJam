@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class TriggerCameraFollow : MonoBehaviour
 {
-
-    public GameObject targetPLayer;
-    public bool c_EnableFollow;
+    //Attach player game object into this
+    [SerializeField] private GameObject targetPLayer;
+    [SerializeField] public bool c_EnableFollow;
     void OnTriggerEnter2D (Collider2D other)
     {
         if (other.GameObject() == targetPLayer)
