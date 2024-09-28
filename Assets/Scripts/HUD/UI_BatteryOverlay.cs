@@ -1,18 +1,45 @@
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 using TMPro;
-using System;
+using DG.Tweening;
 
-public class BatteryOverlay : MonoBehaviour
+public class BatteryOverlay : MonoBehaviour 
 {
     public Button flashlightButton;
     public Button geigerButton;
     public TextMeshProUGUI useLabel;
 
-    [SerializeField] private float animationDuration = 0.5f;
-    [SerializeField] private Vector3 hiddenPosition = new Vector3(0, -100, 0);
-    [SerializeField] private Vector3 visiblePosition = Vector3.zero;
+    [Header("Animation Settings")]
+    [SerializeField] private float popInDuration = 0.3f;
+    [SerializeField] private float popOutDuration = 0.2f;
+    [SerializeField] private float startScale = 0.8f;
+    [SerializeField] private Ease popInEase = Ease.OutBack;
+    [SerializeField] private Ease popOutEase = Ease.InBack;
+
+    private RectTransform overlayRect;
+
+    private void Awake()
+    {
+        overlayRect = GetComponent<RectTransform>();
+
+        if (flashlightButton == null || geigerButton == null)
+        {
+            Debug.LogError("Buttons are not assigned in the inspector!");
+            return;
+        }
+
+        if (flashlightButton.GetComponent<Button>() == null || geigerButton.GetComponent<Button>() == null)
+        {
+            Debug.LogError("Button components are missing!");
+            return;
+        }
+
+        Canvas canvas = GetComponentInParent<Canvas>();
+        if (canvas != null && canvas.GetComponent<GraphicRaycaster>() == null)
+        {
+            Debug.LogWarning("Canvas is missing a GraphicRaycaster component!");
+        }
+    }
 
     private void Start()
     {
@@ -20,49 +47,55 @@ public class BatteryOverlay : MonoBehaviour
         
         flashlightButton.onClick.AddListener(OnFlashlightButtonClick);
         geigerButton.onClick.AddListener(OnGeigerButtonClick);
+
+        Debug.Log("Button listeners added.");
     }
 
     public void Show()
     {
         gameObject.SetActive(true);
+        AnimatePopIn();
+        Debug.Log("BatteryOverlay shown.");
+    }
 
-        flashlightButton.transform.DOLocalMove(visiblePosition, animationDuration).SetEase(Ease.OutQuad);
-        geigerButton.transform.DOLocalMove(visiblePosition, animationDuration).SetEase(Ease.OutQuad);
-        useLabel.transform.DOLocalMove(visiblePosition, animationDuration).SetEase(Ease.OutQuad);
-        useLabel.DOFade(1f, animationDuration);
+    private void AnimatePopIn()
+    {
+        overlayRect.localScale = Vector3.one * startScale;
+        overlayRect.DOScale(Vector3.one, popInDuration).SetEase(popInEase);
     }
 
     public void Hide()
     {
-        Sequence hideSequence = DOTween.Sequence();
+        AnimatePopOut();
+    }
 
-        hideSequence.Join(flashlightButton.transform.DOLocalMove(hiddenPosition, animationDuration).SetEase(Ease.InQuad));
-        hideSequence.Join(geigerButton.transform.DOLocalMove(hiddenPosition, animationDuration).SetEase(Ease.InQuad));
-        hideSequence.Join(useLabel.transform.DOLocalMove(hiddenPosition, animationDuration).SetEase(Ease.InQuad));
-        hideSequence.Join(useLabel.DOFade(0f, animationDuration));
-
-        hideSequence.OnComplete(() => gameObject.SetActive(false));
+    private void AnimatePopOut()
+    {
+        DOTween.Kill(overlayRect);
+        overlayRect.DOScale(Vector3.one * startScale, popOutDuration)
+            .SetEase(popOutEase)
+            .OnComplete(() => {
+                gameObject.SetActive(false);
+                Debug.Log("BatteryOverlay hidden.");
+            });
     }
 
     private void HideInstantly()
     {
-        flashlightButton.transform.localPosition = hiddenPosition;
-        geigerButton.transform.localPosition = hiddenPosition;
-        useLabel.transform.localPosition = hiddenPosition;
-        useLabel.color = new Color(useLabel.color.r, useLabel.color.g, useLabel.color.b, 0f);
+        overlayRect.localScale = Vector3.one * startScale;
         gameObject.SetActive(false);
     }
 
     private void OnFlashlightButtonClick()
     {
-        Debug.Log("Battery used on Flashlight");
+        Debug.Log("Flashlight button clicked.");
         UseBatteryOnFlashlight();
         Hide();
     }
 
     private void OnGeigerButtonClick()
     {
-        Debug.Log("Battery used on Geiger counter");
+        Debug.Log("Geiger button clicked.");
         UseBatteryOnGeiger();
         Hide();
     }
@@ -73,6 +106,7 @@ public class BatteryOverlay : MonoBehaviour
         if (flashlight != null)
         {
             flashlight.RefillBattery();
+            Debug.Log("Flashlight battery refilled.");
         }
         else
         {
@@ -82,6 +116,11 @@ public class BatteryOverlay : MonoBehaviour
 
     private void UseBatteryOnGeiger()
     {
-        Debug.Log("rechatged the geiger");
+        Debug.Log("Recharged the Geiger counter");
+    }
+
+    private void OnDisable()
+    {
+        DOTween.Kill(overlayRect);
     }
 }
