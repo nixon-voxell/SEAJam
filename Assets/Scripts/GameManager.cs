@@ -41,16 +41,18 @@ public class GameManager : MonoBehaviour
 
     // Battery Overlay Management
     public void ShowBatteryOverlay()
+{
+    Debug.Log("ShowBatteryOverlay called");
+    if (batteryOverlay != null)
     {
-        if (batteryOverlay != null)
-        {
-            batteryOverlay.Show();
-        }
-        else
-        {
-            Debug.LogError("BatteryOverlay is not assigned in GameManager!");
-        }
+        Debug.Log("batteryOverlay is not null, calling Show()");
+        batteryOverlay.Show();
     }
+    else
+    {
+        Debug.LogError("BatteryOverlay is not assigned in GameManager!");
+    }
+}
 
     public void HideBatteryOverlay()
     {

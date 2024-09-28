@@ -53,6 +53,7 @@ public class RadiationRadius : MonoBehaviour
             float distanceToCenter = Vector2.Distance(transform.position, playerTransform.position);
             float radiationRate = CalculateRadiationRate(distanceToCenter);
             IncreaseRadiationCounter(radiationRate);
+
         }
         else
         {
