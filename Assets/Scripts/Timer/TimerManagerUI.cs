@@ -22,13 +22,7 @@ public class TimerManagerUI : MonoBehaviour
 
     #endregion
 
-
-    private void Start()
-    {
-        TimerMananger.OnTimerChange += OnTimerChange;
-    }
-
-    void OnTimerChange(float timer)
+    public void OnTimerChange(float timer)
     {
         UpdateTimerText(timer);
 
@@ -63,6 +57,11 @@ public class TimerManagerUI : MonoBehaviour
         _shaker.StartShake();
     }
 
+    public void ResetUI()
+    {
+        _TimerAnimator.enabled = false;
+        _FlashAnimator.gameObject.SetActive(false);
+    }
 
     //IEnumerator FlashTimer()
     //{

@@ -1,57 +1,80 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class TimerMananger : MonoBehaviour
+public class TimerManager : MonoBehaviour
 {
+    public static TimerManager Instance;
+
     [Header("Developer")]
     [Tooltip("Timer in seconds")] [SerializeField] int _TotalTimer;
 
+    [Header("References")]
+    [SerializeField] TimerManagerUI _TimerUI;
+
     #region Properties
 
-    float _CurrentTimer;
+    public float CurrentTimer { get; private set; }
+    Coroutine _CountdownRoutine;
 
     #endregion
 
-    #region Delegates
+    private void Awake()
+    {
+        if(Instance != null)
+        {
+            Destroy(gameObject);
+            this.enabled = false;
+            return;
+        }
 
-    public delegate void FloatValueChangeDelegate(float floatValue);
-    public static FloatValueChangeDelegate OnTimerChange;
-
-    #endregion
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void Start()
     {
-        StartCoroutine(StartTimer());
+        _CountdownRoutine = StartCoroutine(StartTimer());
+        SceneManager.sceneLoaded += ResetTimer;
     }
 
     private void OnDestroy()
     {
-        OnTimerChange = null;
+        Instance = null;
     }
 
     IEnumerator StartTimer()
     {
-        _CurrentTimer = _TotalTimer;
+        CurrentTimer = _TotalTimer;
 
-        while(_CurrentTimer >= 0)
+        while(CurrentTimer >= 0)
         {
             yield return null;
-            _CurrentTimer -= Time.deltaTime;
-            OnTimerChange(_CurrentTimer);
+            CurrentTimer -= Time.deltaTime;
+            _TimerUI.OnTimerChange(CurrentTimer);
         }
     }
 
-    /// <summary>
-    /// Psuedo stop game
-    /// </summary>
-    public void LoseGame()
+    void ResetTimer(Scene loadedScene, LoadSceneMode loadMode)
     {
+        if (_CountdownRoutine != null)
+        {
+            StopCoroutine(_CountdownRoutine);
+            _CountdownRoutine = null;
+        }
 
-#if DEVELOPMENT_BUILD || UNITY_EDITOR
-        Debug.Log("Stop");
-#endif
+        if (_CountdownRoutine != null) StopCoroutine(_CountdownRoutine);
+        _CountdownRoutine = StartCoroutine(StartTimer());
 
+        _TimerUI.ResetUI();
+    }
 
-        Time.timeScale = 0;
+    public void StopTimer()
+    {
+        if (_CountdownRoutine != null)
+        {
+            StopCoroutine(_CountdownRoutine);
+            _CountdownRoutine = null;
+        }
     }
 }
