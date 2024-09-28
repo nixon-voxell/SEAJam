@@ -94,7 +94,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6024977756387117550}
   - component: {fileID: 333912988180237310}
-  - component: {fileID: 4943131765918504758}
   m_Layer: 0
   m_Name: ProximityPrompt
   m_TagString: Player
@@ -134,10 +133,7 @@ MonoBehaviour:
   animationDuration: 0.2
   promptIconObject: {fileID: 8247409695987862112}
   maxScale: 0.6
-  _InteractionEvent:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!61 &4943131765918504758
+--- !u!61 &5571849536359400732
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,10 +162,10 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.37534714, y: 1.1452907}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -180,5 +176,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.7506943, y: 1.5197119}
   m_EdgeRadius: 0
+  Item: {fileID: 0}
+  _InteractionEvent:
+    m_PersistentCalls:
+      m_Calls: []
