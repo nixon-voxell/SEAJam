@@ -18,6 +18,16 @@ public class RadiationRadius : MonoBehaviour
         {
             Debug.LogError("CircleCollider2D not found on RadiationRadius object!");
         }
+        
+        GameManager.Singleton.RegisterRadiationSource(this);
+    }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Singleton != null)
+        {
+            GameManager.Singleton.UnregisterRadiationSource(this);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
