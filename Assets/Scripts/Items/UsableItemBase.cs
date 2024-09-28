@@ -19,6 +19,11 @@ public abstract class UsableItemBase : MonoBehaviour
 
     public abstract void UseItem();
 
+    public virtual void SetHideItem(bool hide)
+    {
+        this.gameObject.SetActive(!hide);
+    }
+
     public virtual void PickupItem()
     {
         GameObject player = PlayerSingleton.Player;

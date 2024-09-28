@@ -29,6 +29,16 @@ public class Flashlight : UsableItemBase
         this.m_FlashlightStatus = !this.m_FlashlightStatus;
     }
 
+    public override void SetHideItem(bool hide)
+    {
+        base.SetHideItem(hide);
+        if (hide)
+        {
+            this.m_FlashlightStatus = false;
+            this.m_Light.intensity = 0.0f;
+        }
+    }
+
     private void Awake()
     {
         this.m_FlashlightStatus = false;
