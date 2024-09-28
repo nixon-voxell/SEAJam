@@ -74,11 +74,16 @@ public class PuzzleManager : MonoBehaviour
             if (!_puzzle.Solved) return;
         }
 
-        TimerManager.Instance.StopTimer();
+        TimeSpan _timeLeft = new TimeSpan(0,0,0);
+
+        if (TimerManager.Instance != null)
+        {
+            TimerManager.Instance.StopTimer();
+            _timeLeft = new TimeSpan(0, 0, Mathf.FloorToInt(TimerManager.Instance.CurrentTimer));
+        }
         _WinGroup.VisibleAndBlocks(true);
         Time.timeScale = 0;
         _WinText.text = string.Empty;
-        TimeSpan _timeLeft = new TimeSpan(0,0, Mathf.FloorToInt(TimerManager.Instance.CurrentTimer));
 
         Sequence _winSequence = DOTween.Sequence();
         _winSequence.Append(_DipToWhite.DOFade(1,1));

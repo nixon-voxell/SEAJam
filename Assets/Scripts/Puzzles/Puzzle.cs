@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public abstract class Puzzle : MonoBehaviour
+public abstract class Puzzle : MonoBehaviour, IInteractable
 {
     [Header("Puzzle References")]
     [SerializeField] protected ProximityPromptSystem _Interactor;
@@ -39,4 +39,9 @@ public abstract class Puzzle : MonoBehaviour
     }
 
     protected abstract void CheckPuzzleCompleted();
+
+    public void Interact()
+    {
+        CheckPuzzleCompleted();
+    }
 }
