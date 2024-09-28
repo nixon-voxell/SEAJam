@@ -40,7 +40,11 @@ public class TimerManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        Instance = null;
+        if(Instance == this)
+        {
+            Instance = null;
+            SceneManager.sceneLoaded -= ResetTimer;
+        }
     }
 
     IEnumerator StartTimer()

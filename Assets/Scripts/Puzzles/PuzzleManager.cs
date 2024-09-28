@@ -24,7 +24,6 @@ public class PuzzleManager : MonoBehaviour
 
     #endregion
 
-
     private void Awake()
     {
         if(Instance != null)
@@ -46,7 +45,11 @@ public class PuzzleManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        Instance = null;
+        if(Instance == this)
+        {
+            Instance = null;
+            SceneManager.sceneLoaded -= ResetSelf;
+        }
     }
 
     void BeginListeningForPuzzleSolved()
