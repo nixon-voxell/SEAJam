@@ -25,10 +25,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8247409695987862112}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 0.65, y: 0.65, z: 0.65}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6024977756387117550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -52,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 89b5cbb7262963d4581a08a41038fcf9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -94,7 +94,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6024977756387117550}
   - component: {fileID: 333912988180237310}
-  - component: {fileID: 5571849536359400732}
   m_Layer: 0
   m_Name: ProximityPrompt
   m_TagString: Player
@@ -130,13 +129,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 087bd14768c65b248b507dacb6b0fd2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactKey: 0
+  interactKey: 101
   animationDuration: 0.2
   promptIconObject: {fileID: 8247409695987862112}
   maxScale: 0.6
-  _InteractionEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!61 &5571849536359400732
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -182,3 +178,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.7506943, y: 1.5197119}
   m_EdgeRadius: 0
+  Item: {fileID: 0}
+  _InteractionEvent:
+    m_PersistentCalls:
+      m_Calls: []

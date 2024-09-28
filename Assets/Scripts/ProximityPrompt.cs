@@ -1,7 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Events;
-using System;
 
 public class ProximityPromptSystem : MonoBehaviour, IInteractable
 {
@@ -25,7 +24,7 @@ public class ProximityPromptSystem : MonoBehaviour, IInteractable
         HidePrompt(true);
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (playerInRange && Input.GetKeyDown(interactKey))
         {
@@ -82,6 +81,7 @@ public class ProximityPromptSystem : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        this.HidePrompt();
         _InteractionEvent?.Invoke();
     }
 

@@ -1,5 +1,3 @@
-using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
@@ -32,7 +30,7 @@ public class MapInteractable : MonoBehaviour, IInteractable
 
     void StartFlickerDelay()
     {
-       // m_Animator.enabled = false;
+        // m_Animator.enabled = false;
         StartCoroutine(PlayFlicker());
     }
 
