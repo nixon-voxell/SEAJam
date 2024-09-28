@@ -8,7 +8,6 @@ public class ProximityPromptSystem : MonoBehaviour, IInteractable
     [SerializeField] private float animationDuration = 0.3f;
     [SerializeField] private GameObject promptIconObject;
     [SerializeField] private float maxScale = 1.1f;
-    [SerializeField] private UsableItemBase Item;
 
     [SerializeField] UnityEvent _InteractionEvent;
 
@@ -25,7 +24,7 @@ public class ProximityPromptSystem : MonoBehaviour, IInteractable
         HidePrompt(true);
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (playerInRange && Input.GetKeyDown(interactKey))
         {

@@ -4,28 +4,19 @@ using Voxell.Util;
 
 public class Flashlight : UsableItemBase
 {
+    [Header("Lighting")]
+    [SerializeField] private float m_MaxIntensity = 2.0f;
     [SerializeField] private Light2D m_Light;
     [SerializeField] private float m_MaxBatteryLevel;
     [Tooltip("Amount of battery level to deplete per second.")]
     [SerializeField] private float m_DepletionFactor;
-    [SerializeField] private Vector3 m_PositionOffset;
 
     [SerializeField, InspectOnly] private bool m_FlashlightStatus;
     [SerializeField, InspectOnly] private float m_CurrBatteryLevel;
 
-    public void Pickup()
-    {
-        GameObject player = PlayerSingleton.Player;
-        this.transform.SetParent(player.transform);
-        this.transform.SetLocalPositionAndRotation(this.m_PositionOffset, Quaternion.identity);
-
-        Inventory inventory = Inventory.Singleton;
-        inventory.SlotItem(this);
-    }
-
     public void RefillBattery()
     {
-        this.m_DepletionFactor = this.m_MaxBatteryLevel;
+        this.m_CurrBatteryLevel = this.m_MaxBatteryLevel;
     }
 
     public bool HasBattery()
@@ -33,10 +24,9 @@ public class Flashlight : UsableItemBase
         return this.m_CurrBatteryLevel > 0.0f;
     }
 
-    public override bool UseItem()
+    public override void UseItem()
     {
         this.m_FlashlightStatus = !this.m_FlashlightStatus;
-        return false;
     }
 
     private void Awake()
@@ -51,6 +41,20 @@ public class Flashlight : UsableItemBase
         if (this.m_FlashlightStatus == true && this.HasBattery())
         {
             this.m_CurrBatteryLevel -= this.m_DepletionFactor * Time.deltaTime;
+        }
+
+
+        if (this.m_FlashlightStatus)
+        {
+            this.m_Light.intensity = Mathf.Lerp(
+                0.0f,
+                this.m_MaxIntensity,
+                this.m_CurrBatteryLevel / this.m_MaxBatteryLevel
+            );
+        }
+        else
+        {
+            this.m_Light.intensity = 0.0f;
         }
     }
 }
