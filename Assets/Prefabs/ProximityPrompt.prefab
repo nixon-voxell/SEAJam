@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 8247409695987862112}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.357, y: 2.761, z: -0.043294176}
-  m_LocalScale: {x: 0.60121536, y: 0.60121536, z: 0.60121536}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalScale: {x: 0.65, y: 0.65, z: 0.65}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6024977756387117550}
@@ -134,6 +134,9 @@ MonoBehaviour:
   animationDuration: 0.2
   promptIconObject: {fileID: 8247409695987862112}
   maxScale: 0.6
+  _InteractionEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!61 &5571849536359400732
 BoxCollider2D:
   m_ObjectHideFlags: 0
