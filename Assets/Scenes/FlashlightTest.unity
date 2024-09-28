@@ -795,6 +795,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Speed: 10
   m_TargetTransform: {fileID: 1353096266}
+  m_IsFollowing: 1
 --- !u!1 &1554340035
 GameObject:
   m_ObjectHideFlags: 0

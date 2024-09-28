@@ -139,10 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8f37dcb61678d2499b4e1525bcfa015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Icon: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_PositionOffset: {x: 0, y: 0, z: 0}
-  m_Proximity: {fileID: 0}
+  interactionRadius: 2
 --- !u!1 &67306416
 GameObject:
   m_ObjectHideFlags: 0
@@ -1559,6 +1556,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   geigerUI: {fileID: 1014887836}
   batteryOverlay: {fileID: 1643086931}
+  playerFlashlight: {fileID: 67306417}
+  geigerCounterBattery: {fileID: 1014887837}
 --- !u!4 &1237638842
 Transform:
   m_ObjectHideFlags: 0
@@ -1736,6 +1735,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Speed: 10
   m_TargetTransform: {fileID: 1353096266}
+  m_IsFollowing: 0
 --- !u!1 &1532805242
 GameObject:
   m_ObjectHideFlags: 0
@@ -2044,9 +2044,11 @@ MonoBehaviour:
   flashlightButton: {fileID: 1668200193}
   geigerButton: {fileID: 1849589515}
   useLabel: {fileID: 563033715}
-  animationDuration: 0.5
-  hiddenPosition: {x: 0, y: -100, z: 0}
-  visiblePosition: {x: 0, y: 0, z: 0}
+  popInDuration: 0.3
+  popOutDuration: 0.2
+  startScale: 0.8
+  popInEase: 27
+  popOutEase: 26
 --- !u!1 &1668200191
 GameObject:
   m_ObjectHideFlags: 0
