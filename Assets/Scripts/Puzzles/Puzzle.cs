@@ -7,7 +7,6 @@ public abstract class Puzzle : MonoBehaviour
 {
     [Header("Puzzle References")]
     [SerializeField] protected ProximityPromptSystem _Interactor;
-    [SerializeField] protected Light2D _PuzzleMapLight;
     [SerializeField] protected SpriteRenderer _PuzzleMapRenderer;
 
     #region Properties
@@ -21,7 +20,6 @@ public abstract class Puzzle : MonoBehaviour
 
     private void Start()
     {
-        _PuzzleMapLight.color = Color.red;
         _PuzzleMapRenderer.color = Color.red;
 
         PuzzleManager.Instance.AttachNewPuzzle(this);
@@ -31,7 +29,6 @@ public abstract class Puzzle : MonoBehaviour
     {
         Solved = true;
         _Interactor.gameObject.SetActive(false);
-        _PuzzleMapLight.color = Color.green;
         _PuzzleMapRenderer.color = Color.green;
         OnPuzzleSolved?.Invoke(this);
     }

@@ -66,7 +66,7 @@ public class MapManager : MonoBehaviour
     {
         _InteractedMap = mapPoint;
         _MapCamera.enabled = true;
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
         _MapCanvas.VisibleAndBlocks(true);
     }
 
@@ -75,7 +75,7 @@ public class MapManager : MonoBehaviour
         _InteractedMap.CloseInteract();
         _InteractedMap = null;
         _MapCamera.enabled = false;
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
         _MapCanvas.VisibleAndBlocks(false);
     }
 
