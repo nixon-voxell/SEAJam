@@ -366,11 +366,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1353096266}
   - component: {fileID: 1353096265}
-  - component: {fileID: 1353096264}
   - component: {fileID: 1353096267}
   - component: {fileID: 1353096268}
+  - component: {fileID: 1353096264}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -389,6 +389,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Speed: 10
+  m_BoostSpeed: 7
+  m_SpeedLerpFactor: 5
+  m_Stamina:
+    m_MaxStamina: 100
+    m_DepletionFactor: 9
+    m_RegenFactor: 5
+    m_CurrStamina: 0
 --- !u!212 &1353096265
 SpriteRenderer:
   m_ObjectHideFlags: 0
