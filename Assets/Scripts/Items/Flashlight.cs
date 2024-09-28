@@ -2,15 +2,23 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Voxell.Util;
 
-public class Torch : UsableItemBase
+public class Flashlight : UsableItemBase
 {
     [SerializeField] private Light2D m_Light;
     [SerializeField] private float m_MaxBatteryLevel;
     [Tooltip("Amount of battery level to deplete per second.")]
     [SerializeField] private float m_DepletionFactor;
+    [SerializeField] private Vector3 m_PositionOffset;
 
     [SerializeField, InspectOnly] private bool m_FlashlightStatus;
     [SerializeField, InspectOnly] private float m_CurrBatteryLevel;
+
+    public void Pickup()
+    {
+        GameObject player = PlayerSingleton.Player;
+        this.transform.SetParent(player.transform);
+        this.transform.SetLocalPositionAndRotation(this.m_PositionOffset, Quaternion.identity);
+    }
 
     public void RefillBattery()
     {

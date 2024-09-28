@@ -1,7 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Events;
-using System;
 
 public class ProximityPromptSystem : MonoBehaviour, IInteractable
 {
@@ -9,6 +8,7 @@ public class ProximityPromptSystem : MonoBehaviour, IInteractable
     [SerializeField] private float animationDuration = 0.3f;
     [SerializeField] private GameObject promptIconObject;
     [SerializeField] private float maxScale = 1.1f;
+    [SerializeField] private UsableItemBase Item;
 
     [SerializeField] UnityEvent _InteractionEvent;
 
@@ -82,6 +82,7 @@ public class ProximityPromptSystem : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        this.HidePrompt();
         _InteractionEvent?.Invoke();
     }
 
