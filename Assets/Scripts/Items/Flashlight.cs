@@ -4,8 +4,6 @@ using Voxell.Util;
 
 public class Flashlight : UsableItemBase
 {
-    [SerializeField] private ProximityPromptSystem m_Proximity;
-
     [Header("Lighting")]
     [SerializeField] private float m_MaxIntensity = 2.0f;
     [SerializeField] private Light2D m_Light;
@@ -26,22 +24,9 @@ public class Flashlight : UsableItemBase
         return this.m_CurrBatteryLevel > 0.0f;
     }
 
-    public override void PickupItem()
-    {
-        base.PickupItem();
-        this.m_Proximity.gameObject.SetActive(false);
-    }
-
-    public override void DropItem()
-    {
-        base.DropItem();
-        this.m_Proximity.gameObject.SetActive(true);
-    }
-
-    public override bool UseItem()
+    public override void UseItem()
     {
         this.m_FlashlightStatus = !this.m_FlashlightStatus;
-        return false;
     }
 
     private void Awake()
