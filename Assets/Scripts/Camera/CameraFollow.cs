@@ -10,7 +10,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private bool m_IsFollowing;
     
     
-    private void Update()
+    private void FixedUpdate()  
     {
         //Getitng script called "TriggerCameraFollow" from the game object.
         m_IsFollowing = movementRange.GetComponent<TriggerCameraFollow>().c_EnableFollow;
