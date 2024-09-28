@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/Level.unity.meta
+guid: 705852f0e0f6fa743b835f82cf14b78e
+========
 guid: f827b7cc5c554d84db70c4d796b10c6c
+>>>>>>>> origin/feature/player-animation:Assets/Scenes/FlashlightTest.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
