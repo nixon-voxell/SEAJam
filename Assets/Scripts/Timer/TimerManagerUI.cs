@@ -99,7 +99,7 @@ public class TimerManagerUI : MonoBehaviour
 
     public void OnClickReloadGame()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
         Time.timeScale = 1;
     }
 }

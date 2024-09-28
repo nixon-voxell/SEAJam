@@ -26,6 +26,7 @@ public class MapInteractable : MonoBehaviour, IInteractable
     private void Start()
     {
         StartFlickerDelay();
+        MapManager.Instance.AttachMap(this);
     }
 
     void StartFlickerDelay()
