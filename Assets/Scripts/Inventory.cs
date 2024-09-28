@@ -24,6 +24,11 @@ public class Inventory : MonoBehaviour
 
     public void SlotItem(UsableItemBase item)
     {
+        if (this.m_Items[this.m_CurrActiveSlot] != null)
+        {
+            this.m_Items[this.m_CurrActiveSlot].DropItem();
+        }
+
         this.m_Items[this.m_CurrActiveSlot] = item;
         var image = this.m_SlotImgs[this.m_CurrActiveSlot];
         image.sprite = item.GetSprite();
@@ -45,21 +50,21 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
-        this.m_CurrActiveSlot = 0;
-        ActivateSlot(this.m_CurrActiveSlot);
-
         this.m_Items = new UsableItemBase[this.m_SlotImgs.Length];
+
+        this.m_CurrActiveSlot = 1;
+        this.ActivateSlot(0);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            ActivateSlot(0);
+            this.ActivateSlot(0);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            ActivateSlot(1);
+            this.ActivateSlot(1);
         }
 
         var currItem = this.m_Items[this.m_CurrActiveSlot];
@@ -70,7 +75,7 @@ public class Inventory : MonoBehaviour
                 currItem.UseItem();
             }
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.Q))
             {
                 currItem.DropItem();
             }
@@ -79,6 +84,11 @@ public class Inventory : MonoBehaviour
 
     private void ActivateSlot(int slotNumber)
     {
+        if (this.m_CurrActiveSlot == slotNumber)
+        {
+            return;
+        }
+
         Image activeSlot = this.m_SlotImgs[slotNumber];
 
         // Deactive every slots first
@@ -92,7 +102,27 @@ public class Inventory : MonoBehaviour
         activeSlot.transform.DOScale(m_EnlargeScale, m_AnimationDuration).SetEase(m_AnimationEase);
         activeSlot.DOColor(m_ActiveColor, m_AnimationDuration).SetEase(m_AnimationEase);
 
-        m_CurrActiveSlot = slotNumber;
+        this.m_CurrActiveSlot = slotNumber;
+        this.SetCorrectItemHideStatus();
+    }
+
+    private void SetCorrectItemHideStatus()
+    {
+        // Hide all items first
+        foreach (UsableItemBase item in this.m_Items)
+        {
+            if (item != null)
+            {
+                item.SetHideItem(true);
+            }
+        }
+
+        // Unhide the selected item
+        var selectedItem = this.m_Items[this.m_CurrActiveSlot];
+        if (selectedItem != null)
+        {
+            selectedItem.SetHideItem(false);
+        }
     }
 
     public int GetCurrentActiveSlot()
