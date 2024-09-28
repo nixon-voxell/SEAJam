@@ -1060,12 +1060,16 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 3271409054783993017, guid: f3f55b1b1a4251e408a957642c3c1d3d, type: 3}
+      propertyPath: m_Intensity
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3271409054783993017, guid: f3f55b1b1a4251e408a957642c3c1d3d, type: 3}
       propertyPath: m_PointLightInnerRadius
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3271409054783993017, guid: f3f55b1b1a4251e408a957642c3c1d3d, type: 3}
       propertyPath: m_PointLightOuterRadius
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3839870354839226257, guid: f3f55b1b1a4251e408a957642c3c1d3d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1109,18 +1113,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5051567656611414809, guid: f3f55b1b1a4251e408a957642c3c1d3d, type: 3}
       propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5051567656611414809, guid: f3f55b1b1a4251e408a957642c3c1d3d, type: 3}
-      propertyPath: m_LinearDrag
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5051567656611414809, guid: f3f55b1b1a4251e408a957642c3c1d3d, type: 3}
-      propertyPath: m_AngularDrag
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5051567656611414809, guid: f3f55b1b1a4251e408a957642c3c1d3d, type: 3}
-      propertyPath: m_Interpolate
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

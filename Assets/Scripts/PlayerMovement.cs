@@ -24,7 +24,6 @@ public class PlayerMovement : MonoBehaviour
         this.m_TargetPosition = this.transform.position;
     }
 
-    // private void Update()
     private void FixedUpdate()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
@@ -49,8 +48,6 @@ public class PlayerMovement : MonoBehaviour
         this.m_TargetPosition = this.m_Rigidbody.position;
         this.m_TargetPosition += movement * this.m_CurrSpeed * Time.deltaTime;
         this.m_Rigidbody.MovePosition(this.m_TargetPosition);
-        // this.transform.position = this.m_TargetPosition;
-        // this.m_Rigidbody.AddForce(movement * this.m_CurrSpeed);
 
 
         if (movement == Vector3.zero)
@@ -58,12 +55,6 @@ public class PlayerMovement : MonoBehaviour
             this.m_Stamina.RegenStamina();
         }
     }
-
-    // private void FixedUpdate()
-    // {
-    // this.m_Rigidbody.MovePosition(this.m_TargetPosition);
-    // this.m_TargetPosition = this.m_Rigidbody.
-    // }
 }
 
 [System.Serializable]
