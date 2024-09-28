@@ -11,7 +11,6 @@ public class PlayerAnimController : MonoBehaviour
     public AnimationClip walkSideAnim;
 
     private Vector2 movement;
-    private Vector2 lastNonZeroMovement;
     private bool isFacingRight = true;
     private string currentState;
 
@@ -21,7 +20,6 @@ public class PlayerAnimController : MonoBehaviour
         {
             animator = GetComponent<Animator>();
         }
-        lastNonZeroMovement = Vector2.down; 
     }
 
     private void Update()
@@ -30,58 +28,29 @@ public class PlayerAnimController : MonoBehaviour
         float moveVertical = Input.GetAxisRaw("Vertical");
 
         movement = new Vector2(moveHorizontal, moveVertical).normalized;
-        bool isMoving = movement.magnitude > 0;
 
-        if (isMoving)
+        // Prioritize walk down animation
+        if (moveVertical < 0)
         {
-            lastNonZeroMovement = movement;
+            PlayAnimation("WalkDown");
+            currentState = "WalkDown";
         }
-
-        string newState = DetermineAnimationState(isMoving);
-        if (newState != currentState)
+        else if (moveVertical > 0)
         {
-            PlayAnimation(newState);
-            currentState = newState;
+            PlayAnimation("WalkUp");
+            currentState = "WalkUp";
         }
-
-        if (moveHorizontal != 0)
+        else if (moveHorizontal != 0)
         {
-            isFacingRight = (moveHorizontal < 0); 
+            PlayAnimation("WalkSide");
+            currentState = "WalkSide";
+            isFacingRight = (moveHorizontal < 0);
             UpdateFacingDirection();
         }
-    }
-
-    private string DetermineAnimationState(bool isMoving)
-    {
-        if (!isMoving)
+        else if (currentState != "IdleUp")
         {
-            if (Mathf.Abs(lastNonZeroMovement.x) > Mathf.Abs(lastNonZeroMovement.y))
-            {
-                return "IdleSide";
-            }
-            else if (lastNonZeroMovement.y > 0)
-            {
-                return "IdleUp";
-            }
-            else
-            {
-                return "IdleDown";
-            }
-        }
-        else
-        {
-            if (Mathf.Abs(movement.x) > Mathf.Abs(movement.y))
-            {
-                return "WalkSide";
-            }
-            else if (movement.y > 0)
-            {
-                return "WalkUp";
-            }
-            else
-            {
-                return "WalkDown";
-            }
+            PlayAnimation("IdleUp");
+            currentState = "IdleUp";
         }
     }
 
@@ -92,14 +61,6 @@ public class PlayerAnimController : MonoBehaviour
             case "IdleUp":
                 if (idleUpAnim != null)
                     animator.Play(idleUpAnim.name);
-                break;
-            case "IdleDown":
-                if (idleDownAnim != null)
-                    animator.Play(idleDownAnim.name);
-                break;
-            case "IdleSide":
-                if (idleSideAnim != null)
-                    animator.Play(idleSideAnim.name);
                 break;
             case "WalkUp":
                 if (walkUpAnim != null)
@@ -122,7 +83,7 @@ public class PlayerAnimController : MonoBehaviour
     private void UpdateFacingDirection()
     {
         Vector3 theScale = transform.localScale;
-        theScale.x = Mathf.Abs(theScale.x) * (isFacingRight ? 1 : -1); 
+        theScale.x = Mathf.Abs(theScale.x) * (isFacingRight ? 1 : -1);
         transform.localScale = theScale;
     }
 }
