@@ -1,12 +1,16 @@
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Events;
+using System;
 
-public class ProximityPromptSystem : MonoBehaviour
+public class ProximityPromptSystem : MonoBehaviour, IInteractable
 {
     [SerializeField] private KeyCode interactKey = KeyCode.E;
     [SerializeField] private float animationDuration = 0.3f;
     [SerializeField] private GameObject promptIconObject;
     [SerializeField] private float maxScale = 1.1f;
+
+    [SerializeField] UnityEvent _InteractionEvent;
 
     private bool playerInRange = false;
     private bool isVisible = false;
@@ -76,8 +80,13 @@ public class ProximityPromptSystem : MonoBehaviour
         }
     }
 
-    private void Interact()
+    public void Interact()
     {
-        HidePrompt();
+        _InteractionEvent?.Invoke();
+    }
+
+    public void AddInteraction(UnityAction newAction)
+    {
+        _InteractionEvent.AddListener(newAction);
     }
 }
