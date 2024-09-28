@@ -947,8 +947,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c2fe1428c6775d40be109c7b9e83af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashlightButton: {fileID: 754166416}
-  geigerButton: {fileID: 1199337590}
+  flashlightButton: {fileID: 1199337590}
+  geigerButton: {fileID: 754166416}
   useLabel: {fileID: 1715529231}
   popInDuration: 0.3
   popOutDuration: 0.2
@@ -2037,6 +2037,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Speed: 10
   m_TargetTransform: {fileID: 1353096266}
+  m_IsFollowing: 0
 --- !u!1 &1554340035
 GameObject:
   m_ObjectHideFlags: 0
