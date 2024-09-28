@@ -9,12 +9,24 @@ public class GameManager : MonoBehaviour
     public UI_GeigerCounter_Behavior geigerUI;
     public BatteryOverlay batteryOverlay;
 
+    [Header("Player Equipment")]
+    public Flashlight playerFlashlight;
+    public GeigerCounterBatteryManager geigerCounterBattery;
+
     [Header("Radiation Management")]
     private List<RadiationRadius> radiationSources = new List<RadiationRadius>();
 
     void Awake()
     {
-        GameManager.Singleton = this;
+        if (Singleton == null)
+        {
+            Singleton = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Start()
@@ -26,6 +38,14 @@ public class GameManager : MonoBehaviour
         if (batteryOverlay == null)
         {
             Debug.LogError("BatteryOverlay not assigned in GameManager!");
+        }
+        if (playerFlashlight == null)
+        {
+            Debug.LogError("Flashlight not assigned in GameManager!");
+        }
+        if (geigerCounterBattery == null)
+        {
+            Debug.LogError("GeigerCounterBatteryManager not assigned in GameManager!");
         }
         FindRadiationSources();
     }
@@ -41,24 +61,51 @@ public class GameManager : MonoBehaviour
 
     // Battery Overlay Management
     public void ShowBatteryOverlay()
-{
-    Debug.Log("ShowBatteryOverlay called");
-    if (batteryOverlay != null)
     {
-        Debug.Log("batteryOverlay is not null, calling Show()");
-        batteryOverlay.Show();
+        Debug.Log("ShowBatteryOverlay called");
+        if (batteryOverlay != null)
+        {
+            Debug.Log("batteryOverlay is not null, calling Show()");
+            batteryOverlay.Show();
+        }
+        else
+        {
+            Debug.LogError("BatteryOverlay is not assigned in GameManager!");
+        }
     }
-    else
-    {
-        Debug.LogError("BatteryOverlay is not assigned in GameManager!");
-    }
-}
 
     public void HideBatteryOverlay()
     {
         if (batteryOverlay != null)
         {
             batteryOverlay.Hide();
+        }
+    }
+
+    // Battery Usage Functions
+    public void RefillFlashlightBattery()
+    {
+        if (playerFlashlight != null)
+        {
+            playerFlashlight.RefillBattery();
+            Debug.Log("Flashlight battery refilled.");
+        }
+        else
+        {
+            Debug.LogWarning("Flashlight not found!");
+        }
+    }
+
+    public void RefillGeigerCounterBattery()
+    {
+        if (geigerCounterBattery != null)
+        {
+            geigerCounterBattery.ReplaceBattery();
+            Debug.Log("Geiger counter battery replaced.");
+        }
+        else
+        {
+            Debug.LogWarning("GeigerCounterBatteryManager not found!");
         }
     }
 
@@ -96,5 +143,4 @@ public class GameManager : MonoBehaviour
     {
         radiationSources.Remove(source);
     }
-
 }

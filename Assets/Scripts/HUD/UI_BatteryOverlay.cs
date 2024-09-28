@@ -17,8 +17,9 @@ public class BatteryOverlay : MonoBehaviour
     [SerializeField] private Ease popOutEase = Ease.InBack;
 
     private RectTransform overlayRect;
+    private GameManager gameManager;
 
-    private void Awake()
+     private void Awake()
     {
         overlayRect = GetComponent<RectTransform>();
 
@@ -43,6 +44,13 @@ public class BatteryOverlay : MonoBehaviour
 
     private void Start()
     {
+        gameManager = GameManager.Singleton;
+        if (gameManager == null)
+        {
+            Debug.LogError("GameManager singleton not found!");
+            return;
+        }
+
         HideInstantly();
         
         flashlightButton.onClick.AddListener(OnFlashlightButtonClick);
@@ -50,7 +58,6 @@ public class BatteryOverlay : MonoBehaviour
 
         Debug.Log("Button listeners added.");
     }
-
     public void Show()
     {
         gameObject.SetActive(true);
@@ -89,34 +96,15 @@ public class BatteryOverlay : MonoBehaviour
     private void OnFlashlightButtonClick()
     {
         Debug.Log("Flashlight button clicked.");
-        UseBatteryOnFlashlight();
+        gameManager.RefillFlashlightBattery();
         Hide();
     }
 
     private void OnGeigerButtonClick()
     {
         Debug.Log("Geiger button clicked.");
-        UseBatteryOnGeiger();
+        gameManager.RefillGeigerCounterBattery();
         Hide();
-    }
-
-    private void UseBatteryOnFlashlight()
-    {
-        Flashlight flashlight = FindObjectOfType<Flashlight>();
-        if (flashlight != null)
-        {
-            flashlight.RefillBattery();
-            Debug.Log("Flashlight battery refilled.");
-        }
-        else
-        {
-            Debug.LogWarning("No Flashlight found in the scene.");
-        }
-    }
-
-    private void UseBatteryOnGeiger()
-    {
-        Debug.Log("Recharged the Geiger counter");
     }
 
     private void OnDisable()
