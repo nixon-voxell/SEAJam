@@ -1,6 +1,7 @@
 using UnityEngine;
 using Voxell.Util;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
     [Tooltip("Base walking speed of the player.")]
@@ -12,14 +13,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private PlayerStamina m_Stamina;
 
     private float m_CurrSpeed;
+    private Rigidbody2D m_Rigidbody;
+    private Vector3 m_TargetPosition;
 
     private void Awake()
     {
         this.m_CurrSpeed = 0.0f;
         this.m_Stamina.Init();
+        this.m_Rigidbody = this.GetComponent<Rigidbody2D>();
+        this.m_TargetPosition = this.transform.position;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
@@ -33,10 +38,17 @@ public class PlayerMovement : MonoBehaviour
             targetSpeed += this.m_BoostSpeed;
         }
 
-        this.m_CurrSpeed = Mathf.Lerp(this.m_CurrSpeed, targetSpeed, this.m_SpeedLerpFactor * Time.deltaTime);
+        this.m_CurrSpeed = Mathf.Lerp(
+            this.m_CurrSpeed,
+            targetSpeed,
+            this.m_SpeedLerpFactor * Time.deltaTime
+        );
 
         // Move the player based on input.
-        this.transform.position += movement * this.m_CurrSpeed * Time.deltaTime;
+        this.m_TargetPosition = this.m_Rigidbody.position;
+        this.m_TargetPosition += movement * this.m_CurrSpeed * Time.deltaTime;
+        this.m_Rigidbody.MovePosition(this.m_TargetPosition);
+
 
         if (movement == Vector3.zero)
         {

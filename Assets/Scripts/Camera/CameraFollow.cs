@@ -5,7 +5,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float m_Speed;
     [SerializeField] private Transform m_TargetTransform;
 
-    private void Update()
+    private void FixedUpdate()
     {
         // Make sure factor is less than 1.0 to prevent overshoot.
         float factor = this.m_Speed * Time.deltaTime;
