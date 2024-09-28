@@ -7,10 +7,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float m_Speed;
     [Tooltip("Amount of additional speed added to the base speed when stamina is being used.")]
     [SerializeField] private float m_BoostSpeed;
+    [Tooltip("How fast the player can achieve the target speed.")]
+    [SerializeField] private float m_SpeedLerpFactor;
     [SerializeField] private PlayerStamina m_Stamina;
+
+    private float m_CurrSpeed;
 
     private void Awake()
     {
+        this.m_CurrSpeed = 0.0f;
         this.m_Stamina.Init();
     }
 
@@ -22,14 +27,21 @@ public class PlayerMovement : MonoBehaviour
 
         bool useStamina = Input.GetButton("Jump");
 
-        float speed = this.m_Speed;
+        float targetSpeed = this.m_Speed;
         if (useStamina && this.m_Stamina.DepleteStamina())
         {
-            speed += this.m_BoostSpeed;
+            targetSpeed += this.m_BoostSpeed;
         }
 
+        this.m_CurrSpeed = Mathf.Lerp(this.m_CurrSpeed, targetSpeed, this.m_SpeedLerpFactor * Time.deltaTime);
+
         // Move the player based on input.
-        this.transform.position += movement * speed * Time.deltaTime;
+        this.transform.position += movement * this.m_CurrSpeed * Time.deltaTime;
+
+        if (movement == Vector3.zero)
+        {
+            this.m_Stamina.RegenStamina();
+        }
     }
 }
 
@@ -40,6 +52,9 @@ public struct PlayerStamina
 
     [Tooltip("Amount of stamina to deplete per second.")]
     [SerializeField] private float m_DepletionFactor;
+
+    [Tooltip("Amount of stamina to regenerate per second.")]
+    [SerializeField] private float m_RegenFactor;
 
     [SerializeField, InspectOnly] private float m_CurrStamina;
 
@@ -81,5 +96,11 @@ public struct PlayerStamina
         }
 
         return false;
+    }
+
+    public void RegenStamina()
+    {
+        this.m_CurrStamina += this.m_RegenFactor * Time.deltaTime;
+        this.m_CurrStamina = Mathf.Min(this.m_CurrStamina, this.m_MaxStamina);
     }
 }
