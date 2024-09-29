@@ -10,21 +10,22 @@ public class TutorialPromptUI : MonoBehaviour
     [SerializeField] private float fadeOutDuration = 0.3f;
 
     private int currentIndex = -1;
-    private bool isComplete = false;
+    public bool IsComplete { get; private set; } = false;
 
-    private void Start()
+    private void OnEnable()
     {
+        IsComplete = false;
+        currentIndex = -1;
         foreach (var image in lineImages)
         {
             image.color = new Color(1f, 1f, 1f, 0f);
         }
-
         ShowNextLine();
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !isComplete)
+        if (Input.GetMouseButtonDown(0) && !IsComplete)
         {
             ShowNextLine();
         }
@@ -48,9 +49,7 @@ public class TutorialPromptUI : MonoBehaviour
 
         Image currentImage = lineImages[currentIndex];
         currentImage.DOFade(1f, fadeInDuration)
-            .SetEase(Ease.OutCubic)
-            .OnComplete(() => {
-            });
+            .SetEase(Ease.OutCubic);
     }
 
     private void HideLastImage()
@@ -61,7 +60,8 @@ public class TutorialPromptUI : MonoBehaviour
             lastImage.DOFade(0f, fadeOutDuration)
                 .SetEase(Ease.InCubic)
                 .OnComplete(() => {
-                    isComplete = true;
+                    IsComplete = true;
+                    gameObject.SetActive(false);
                 });
         }
     }
