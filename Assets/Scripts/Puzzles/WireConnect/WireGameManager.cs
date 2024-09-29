@@ -101,6 +101,5 @@ public class WireGameManager : Puzzle
 
         SolvedPuzzle();
         OnClickCloseGame();
-
     }
 }
