@@ -8,7 +8,6 @@ public class WireDragger : UILineRenderer, IDragHandler, IEndDragHandler, IBegin
 {
     #region Properties
 
-    Vector3 _initialPosition;
     public Image Image { get; private set; }
     public bool Connected { get; private set; } = false;
     public RectTransform RectTransform { get; private set; }
@@ -27,15 +26,14 @@ public class WireDragger : UILineRenderer, IDragHandler, IEndDragHandler, IBegin
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        _Points.Add(eventData.position);
-        _initialPosition = transform.position;
+        _Points.Add(transform.InverseTransformPoint(eventData.position));
         raycastTarget = false;
         SetVerticesDirty();
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        _Points[2] = eventData.position - transform.position.xy();
+        _Points[2] = transform.InverseTransformPoint(eventData.position);
         SetVerticesDirty();
     }
 
@@ -51,7 +49,7 @@ public class WireDragger : UILineRenderer, IDragHandler, IEndDragHandler, IBegin
     public void SuccessfulConnection(WireReceiver receiver)
     {
         Connected = true;
-        Vector2 _connectedPosition = receiver.transform.position - transform.position;
+        Vector2 _connectedPosition = transform.InverseTransformPoint(receiver.transform.position);
         _connectedPosition.x -= receiver.RectTransform.rect.width;
         _Points[2] = _connectedPosition;
         SetVerticesDirty();
