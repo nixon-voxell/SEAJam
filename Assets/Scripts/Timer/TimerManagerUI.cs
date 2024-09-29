@@ -39,7 +39,7 @@ public class TimerManagerUI : MonoBehaviour
         _TimerText.text = string.Format(_TimerFormat, _minutes.ToString("00"), _seconds.ToString("00"));
     }
 
-    void LoseGameSequence()
+    public void LoseGameSequence()
     {
         ShakeCamera();
         _TimerAnimator.enabled = true;

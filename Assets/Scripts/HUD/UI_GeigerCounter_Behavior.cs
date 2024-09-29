@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement; // For restarting the scene
 
 public class UI_GeigerCounter_Behavior : MonoBehaviour
 {
+    public TimerManagerUI timerManagerUI;
     public TextMeshProUGUI radiationText;
     public float maxShakeIntensity = 0.5f;
     public float minShakeIntensity = 0.1f;
@@ -40,7 +41,8 @@ public class UI_GeigerCounter_Behavior : MonoBehaviour
         // Check if radiation level reached the maximum threshold (1.0)
         if (radiationLevel >= 1.0f)
         {
-            RestartScene(); // Restart the game or scene
+            // RestartScene(); // Restart the game or scene
+            timerManagerUI.LoseGameSequence();
         }
         else
         {
@@ -120,9 +122,9 @@ public class UI_GeigerCounter_Behavior : MonoBehaviour
         transform.localPosition = originalPosition;
     }
 
-    private void RestartScene()
-    {
-        Debug.Log("Radiation reached maximum! Restarting scene...");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Restart the current scene
-    }
+    // private void RestartScene()
+    // {
+    //     Debug.Log("Radiation reached maximum! Restarting scene...");
+    //     SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Restart the current scene
+    // }
 }
