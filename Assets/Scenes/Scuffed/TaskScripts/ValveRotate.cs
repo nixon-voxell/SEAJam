@@ -7,7 +7,6 @@ public class ValveRotationTask : MonoBehaviour
     public float rotationDuration = 2f;
     public float totalRotationAngle = 360f;
     public float interactionRange = 2f;
-    public ProgressBar progressBar;
 
     private bool isPlayerNear = false;
     private bool isRotating = false;
@@ -55,8 +54,6 @@ public class ValveRotationTask : MonoBehaviour
                 StopRotating();
             }
         }
-
-        this.progressBar.SetProgress(this.rotationProgress);
     }
 
     private void RotateValve()

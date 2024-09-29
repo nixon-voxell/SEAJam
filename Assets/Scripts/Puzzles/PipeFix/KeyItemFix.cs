@@ -5,7 +5,8 @@ using System.Collections;
 public enum KeyItems
 {
     NULL,
-    PIPE
+    PIPE,
+    WRENCH
 }
 
 public class KeyItemFix : Puzzle
@@ -20,6 +21,7 @@ public class KeyItemFix : Puzzle
     [SerializeField] SpriteRenderer _ProgressionMeter;
     [SerializeField] GameObject _Bar;
     [SerializeField] UnityEvent _FixedEvent;
+    public System.Action<float> _ProgressionAction;
 
     #region Properties
 
@@ -52,6 +54,9 @@ public class KeyItemFix : Puzzle
             case KeyItems.PIPE:
                 if (currentItem == null) return false;
                 return currentItem.GetType() == typeof(Pipe);
+            case KeyItems.WRENCH:
+                if (currentItem == null) return false;
+                return currentItem.GetType() == typeof(Wrench);
             case KeyItems.NULL:
                 return true;
         }
@@ -77,6 +82,8 @@ public class KeyItemFix : Puzzle
             }
 
             _currentItem = Inventory.Singleton.GetCurrentActiveItem();
+
+            _ProgressionAction.Invoke(_ProgressionTimer / _ProgressionDuration);
             yield return null;
         }
 
@@ -88,7 +95,10 @@ public class KeyItemFix : Puzzle
         UsableItemBase _currentItem = Inventory.Singleton.GetCurrentActiveItem();
         Inventory.Singleton.RemoveItem();
         Destroy(_currentItem.gameObject);
-        _RendererToReplaceWhenFixed.sprite = _FixedSprite;
+        if (_FixedSprite != null && _RendererToReplaceWhenFixed != null)
+        {
+            _RendererToReplaceWhenFixed.sprite = _FixedSprite;
+        }
         _FixedEvent?.Invoke();
         base.SolvedPuzzle();
     }
