@@ -21,7 +21,7 @@ public class KeyItemFix : Puzzle
     [SerializeField] SpriteRenderer _ProgressionMeter;
     [SerializeField] GameObject _Bar;
     [SerializeField] UnityEvent _FixedEvent;
-    public System.Action<float> _ProgressionAction;
+    public System.Action<float> ProgressionAction;
 
     #region Properties
 
@@ -83,7 +83,7 @@ public class KeyItemFix : Puzzle
 
             _currentItem = Inventory.Singleton.GetCurrentActiveItem();
 
-            _ProgressionAction?.Invoke(_ProgressionTimer / _ProgressionDuration);
+            ProgressionAction?.Invoke(_ProgressionTimer / _ProgressionDuration);
             yield return null;
         }
 
