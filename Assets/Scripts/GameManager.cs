@@ -16,6 +16,10 @@ public class GameManager : MonoBehaviour
     [Header("Radiation Management")]
     private List<RadiationRadius> radiationSources = new List<RadiationRadius>();
 
+
+     [Header("Pipe Management")]
+    public bool playerHasPipe = false;
+
     void Awake()
     {
         if (Singleton == null)
@@ -49,6 +53,31 @@ public class GameManager : MonoBehaviour
         }
         FindRadiationSources();
     }
+
+    public void PickUpPipe()
+    {
+        playerHasPipe = true;
+        Debug.Log("Player picked up a pipe");
+    }
+
+    public bool HasPipe()
+    {
+        return playerHasPipe;
+    }
+
+      public void UsePipe()
+    {
+        if (playerHasPipe)
+        {
+            playerHasPipe = false;
+            Debug.Log("Player used the pipe");
+        }
+        else
+        {
+            Debug.Log("Player doesn't have a pipe to use");
+        }
+    }
+
 
     void Update()
     {
