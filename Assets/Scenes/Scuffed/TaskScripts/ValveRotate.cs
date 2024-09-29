@@ -7,6 +7,7 @@ public class ValveRotationTask : MonoBehaviour
     public float rotationDuration = 2f;
     public float totalRotationAngle = 360f;
     public float interactionRange = 2f;
+    public ProgressBar progressBar;
 
     private bool isPlayerNear = false;
     private bool isRotating = false;
@@ -54,6 +55,8 @@ public class ValveRotationTask : MonoBehaviour
                 StopRotating();
             }
         }
+
+        this.progressBar.SetProgress(this.rotationProgress);
     }
 
     private void RotateValve()
@@ -77,7 +80,8 @@ public class ValveRotationTask : MonoBehaviour
     private int task_r;
     private int task_s;
 
-    private void TasksCompleted_Rje(){
+    private void TasksCompleted_Rje()
+    {
 
     }
 
@@ -94,11 +98,11 @@ public class ValveRotationTask : MonoBehaviour
     {
         isRotating = false;
         isCompleted = true;
-        
-            valveGraphic.DORotate(new Vector3(0, 0, totalRotationAngle), 0.1f, RotateMode.Fast).OnComplete(() =>
-        {
-            Debug.Log("Valve rotation completed!");
-        });
+
+        valveGraphic.DORotate(new Vector3(0, 0, totalRotationAngle), 0.1f, RotateMode.Fast).OnComplete(() =>
+    {
+        Debug.Log("Valve rotation completed!");
+    });
 
         GetComponent<Collider2D>().enabled = false;
     }
