@@ -67,30 +67,16 @@ public class GeigerCounterBatteryManager : MonoBehaviour
 
     public void IncreaseRadiation(float rate)
     {
-        if (!isBatteryDead)
-        {
-            currentRadiation += rate * Time.deltaTime;
-            currentRadiation = Mathf.Min(currentRadiation, maxRadiation);
-            Debug.Log($"Radiation increased to {currentRadiation}");
-        }
-        else
-        {
-            Debug.LogWarning("Cannot increase radiation, Geiger counter battery is dead.");
-        }
+        currentRadiation += rate * Time.deltaTime;
+        currentRadiation = Mathf.Min(currentRadiation, maxRadiation);
+        Debug.Log($"Radiation increased to {currentRadiation}");
     }
 
     public void DecreaseRadiation()
     {
-        if (!isBatteryDead)
-        {
-            currentRadiation -= radiationDecreaseRate * Time.deltaTime;
-            currentRadiation = Mathf.Max(currentRadiation, 0f);
-            Debug.Log($"Radiation decreased to {currentRadiation}");
-        }
-        else
-        {
-            Debug.LogWarning("Cannot decrease radiation, Geiger counter battery is dead.");
-        }
+        currentRadiation -= radiationDecreaseRate * Time.deltaTime;
+        currentRadiation = Mathf.Max(currentRadiation, 0f);
+        Debug.Log($"Radiation decreased to {currentRadiation}");
     }
 
     // Drain battery over time
