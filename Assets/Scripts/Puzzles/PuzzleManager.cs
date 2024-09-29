@@ -1,6 +1,5 @@
 using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -26,7 +25,7 @@ public class PuzzleManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance != null)
+        if (Instance != null)
         {
             Destroy(gameObject);
             this.enabled = false;
@@ -45,7 +44,7 @@ public class PuzzleManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(Instance == this)
+        if (Instance == this)
         {
             Instance = null;
             SceneManager.sceneLoaded -= ResetSelf;
@@ -54,7 +53,7 @@ public class PuzzleManager : MonoBehaviour
 
     void BeginListeningForPuzzleSolved()
     {
-        foreach(Puzzle _puzzle in _Puzzles)
+        foreach (Puzzle _puzzle in _Puzzles)
         {
             _puzzle.OnPuzzleSolved += CheckAllPuzzlesSolved;
         }
@@ -68,13 +67,13 @@ public class PuzzleManager : MonoBehaviour
 
     void CheckAllPuzzlesSolved(Puzzle solvedPuzzle)
     {
-        foreach(Puzzle _puzzle in _Puzzles)
+        foreach (Puzzle _puzzle in _Puzzles)
         {
             ///Some puzzles not solved yet
             if (!_puzzle.Solved) return;
         }
 
-        TimeSpan _timeLeft = new TimeSpan(0,0,0);
+        TimeSpan _timeLeft = new TimeSpan(0, 0, 0);
 
         if (TimerManager.Instance != null)
         {
@@ -86,7 +85,7 @@ public class PuzzleManager : MonoBehaviour
         _WinText.text = string.Empty;
 
         Sequence _winSequence = DOTween.Sequence();
-        _winSequence.Append(_DipToWhite.DOFade(1,1));
+        _winSequence.Append(_DipToWhite.DOFade(1, 1));
         _winSequence.Append(_WinText.DOText($"CONGRATULATIONS! You have saved the day!\nYou had {_timeLeft.ToString("mm")} minutes and {_timeLeft.ToString("ss")} seconds to spare", 4));
         _winSequence.AppendInterval(1);
         _winSequence.AppendCallback(() =>
@@ -105,7 +104,7 @@ public class PuzzleManager : MonoBehaviour
 
     void ResetSelf(Scene loadedScene, LoadSceneMode loadMode)
     {
-        foreach(Puzzle _puzzle in _Puzzles)
+        foreach (Puzzle _puzzle in _Puzzles)
         {
             _puzzle.OnPuzzleSolved -= CheckAllPuzzlesSolved;
         }
@@ -117,7 +116,7 @@ public class PuzzleManager : MonoBehaviour
     void ResetUI()
     {
         _WinGroup.VisibleAndBlocks(false);
-        _DipToWhite.color = new Color(1,1,1,0);
+        _DipToWhite.color = new Color(1, 1, 1, 0);
         _WinText.text = string.Empty;
         _ReloadButton.interactable = false;
         _RetryText.gameObject.SetActive(false);
