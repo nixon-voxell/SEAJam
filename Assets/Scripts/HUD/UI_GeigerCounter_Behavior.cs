@@ -32,7 +32,7 @@ public class UI_GeigerCounter_Behavior : MonoBehaviour
         }
     }
 
-    void Update()
+    void LateUpdate()
     {
         // Get the current radiation level from the singleton
         float radiationLevel = batteryManager.GetRadiationLevel();

@@ -11,7 +11,7 @@ public class EnemyPatrolAI : MonoBehaviour
     private Vector3 startPosition, endPosition, movement;
     private bool movingToEnd = true;
     private Transform playerTransform;
-    
+
     private void Start()
     {
         if (navMeshMini == null)
@@ -26,10 +26,15 @@ public class EnemyPatrolAI : MonoBehaviour
         transform.position = startPosition;
 
         animator ??= GetComponent<Animator>();
-        playerTransform = PlayerSingleton.Player.transform; 
+        playerTransform = PlayerSingleton.Player.transform;
         SetFacingDirection(!navMeshMini.startFacingRight);
 
         StartCoroutine(PatrolCoroutine());
+    }
+
+    private void LateUpdate()
+    {
+        CheckRadiationDistance(); // Check player's distance and modify radiation levels
     }
 
     IEnumerator PatrolCoroutine()
@@ -63,7 +68,6 @@ public class EnemyPatrolAI : MonoBehaviour
                 SetFacingDirection(movement.y > 0); // Face right when moving up (unchanged for vertical movement)
 
             UpdateAnimation();
-            CheckRadiationDistance(); // Check player's distance and modify radiation levels
             yield return null;
         }
     }
@@ -114,12 +118,16 @@ public class EnemyPatrolAI : MonoBehaviour
         float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
         if (distanceToPlayer <= detectionRadius)
         {
-            float radiationRate = Mathf.Lerp(GeigerCounterBatteryManager.Instance.minRadiationRate, GeigerCounterBatteryManager.Instance.maxRadiationRate, 1f - (distanceToPlayer / detectionRadius));
+            float radiationRate = Mathf.Lerp(
+                GeigerCounterBatteryManager.Instance.maxRadiationRate,
+                GeigerCounterBatteryManager.Instance.minRadiationRate,
+                distanceToPlayer / detectionRadius
+            );
             GeigerCounterBatteryManager.Instance.IncreaseRadiation(radiationRate);
         }
-        else
-        {
-            GeigerCounterBatteryManager.Instance.DecreaseRadiation();
-        }
+        // else
+        // {
+        //     GeigerCounterBatteryManager.Instance.DecreaseRadiation();
+        // }
     }
 }

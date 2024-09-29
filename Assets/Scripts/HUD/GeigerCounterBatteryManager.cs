@@ -63,6 +63,8 @@ public class GeigerCounterBatteryManager : MonoBehaviour
         {
             currentImage.sprite = geigerDeadSprite;  // Show dead sprite when battery is dead
         }
+
+        this.DecreaseRadiation();
     }
 
     public void IncreaseRadiation(float rate)
@@ -72,7 +74,7 @@ public class GeigerCounterBatteryManager : MonoBehaviour
         Debug.Log($"Radiation increased to {currentRadiation}");
     }
 
-    public void DecreaseRadiation()
+    private void DecreaseRadiation()
     {
         currentRadiation -= radiationDecreaseRate * Time.deltaTime;
         currentRadiation = Mathf.Max(currentRadiation, 0f);
