@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2e5800e7f110cb4fbb6593d2b3e8180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patrolDistance: 5
+  patrolDistance: 8
   moveSpeed: 2
   idleTime: 2
   isHorizontal: 1
@@ -226,7 +226,7 @@ MonoBehaviour:
   idleUpAnim: {fileID: 7400000, guid: 47ff4e3130565a9438e70899872b1f6a, type: 2}
   idleDownAnim: {fileID: 7400000, guid: 8ba582d181be113439adc36eb61b5a68, type: 2}
   idleSideAnim: {fileID: 7400000, guid: dda478d066c1197408cdb66c23f8df31, type: 2}
-  walkUpAnim: {fileID: 0}
+  walkUpAnim: {fileID: 7400000, guid: af714cfd43419654ab0d465ef5d2249f, type: 2}
   walkDownAnim: {fileID: 7400000, guid: af714cfd43419654ab0d465ef5d2249f, type: 2}
   walkSideAnim: {fileID: 7400000, guid: 8520aaf1e23f0244abc28bc88e6f7c17, type: 2}
 --- !u!1 &3613224747027510955
@@ -243,7 +243,7 @@ GameObject:
   - component: {fileID: 5263931548550048406}
   m_Layer: 0
   m_Name: Radiation_Range
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -312,7 +312,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 3.29
+  m_Radius: 1.84
 --- !u!114 &5263931548550048406
 MonoBehaviour:
   m_ObjectHideFlags: 0
