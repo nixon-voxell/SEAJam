@@ -129,4 +129,9 @@ public class Inventory : MonoBehaviour
     {
         return m_CurrActiveSlot;
     }
+
+    public UsableItemBase GetCurrentActiveItem()
+    {
+        return m_Items[m_CurrActiveSlot];
+    }
 }

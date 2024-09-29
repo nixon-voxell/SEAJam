@@ -1,8 +1,12 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class MapManager : MonoBehaviour
 {
+    public static MapManager Instance;
+
     [Header("Developer")]
     [SerializeField] Tile _WallTile;
     [SerializeField] Tile _FloorTile;
@@ -14,33 +18,55 @@ public class MapManager : MonoBehaviour
     [SerializeField] Tilemap _WallTilemap;
     public Tilemap MapTilemap;
     [SerializeField] CanvasGroup _MapCanvas;
-    [SerializeField] MapInteractable[] _MapInteractables;
 
     #region Properties
 
     MapInteractable _InteractedMap;
+    List<MapInteractable> _MapInteractables = new List<MapInteractable>();
 
     #endregion
 
     private void Awake()
     {
+        if(Instance != null)
+        {
+            Destroy(gameObject);
+            this.enabled = false;
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
         if(MapTilemap == null) MapTilemap = GetComponent<Tilemap>();
-        AttachViewMap();
+        SceneManager.sceneLoaded += ResetReferences;
     }
 
-    void AttachViewMap()
+    private void OnDestroy()
     {
-        foreach(MapInteractable _map in _MapInteractables)
+        if(Instance == this)
         {
-            _map.AddInteraction(() => ViewMap(_map));
+            Instance = null;
+            SceneManager.sceneLoaded -= ResetReferences;
         }
+    }
+
+    void ResetReferences(Scene loadedScene, LoadSceneMode loadMode)
+    {
+        _MapInteractables.Clear();
+        _InteractedMap = null;
+    }
+
+    public void AttachMap(MapInteractable map)
+    {
+        _MapInteractables.Add(map);
+        map.AddInteraction(() => ViewMap(map));
     }
 
     public void ViewMap(MapInteractable mapPoint)
     {
         _InteractedMap = mapPoint;
         _MapCamera.enabled = true;
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
         _MapCanvas.VisibleAndBlocks(true);
     }
 
@@ -49,7 +75,7 @@ public class MapManager : MonoBehaviour
         _InteractedMap.CloseInteract();
         _InteractedMap = null;
         _MapCamera.enabled = false;
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
         _MapCanvas.VisibleAndBlocks(false);
     }
 
@@ -64,17 +90,30 @@ public class MapManager : MonoBehaviour
             for (int y = 0; y < _floorBounds.size.y; y++)
             {
                 Vector3Int _cellPosition = new Vector3Int(x + _floorBounds.position.x, y + _floorBounds.position.y, 0);
-                TileBase _currentTile = _WallTilemap.GetTile(_cellPosition);
+                Tile _currentTile = (Tile)_WallTilemap.GetTile(_cellPosition);
 
-                if (_currentTile == null) MapTilemap.SetTile(_cellPosition, _FloorTile);
+                if (_currentTile == null) continue;// MapTilemap.SetTile(_cellPosition, _FloorTile);
                 else
                 {
-                    if(_IsWallTileOnlyWalls) MapTilemap.SetTile(_cellPosition, _WallTile);
-                    else if (ReplaceWithWall(_currentTile)) MapTilemap.SetTile(_cellPosition, _WallTile);
+                    if (_IsWallTileOnlyWalls) MapTilemap.SetTile(_cellPosition, _WallTile);
+                    else
+                    {
+                        switch (_currentTile.colliderType)
+                        {
+                            case Tile.ColliderType.None:
+                                MapTilemap.SetTile(_cellPosition, _FloorTile);
+                                break;
+                            default:
+                                MapTilemap.SetTile(_cellPosition, _WallTile);
+                                break;
+                        }
+                    }
                 }
             }
         }
     }
+
+
     public void ClearMap()
     {
         if (MapTilemap == null) MapTilemap = GetComponent<Tilemap>();
