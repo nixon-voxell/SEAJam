@@ -89,14 +89,11 @@ public class ValveRotationTask : MonoBehaviour
         isRotating = false;
         isCompleted = true;
         
-        // Ensure the valve is at the exact final rotation
         valveGraphic.DORotate(new Vector3(0, 0, totalRotationAngle), 0.1f, RotateMode.Fast).OnComplete(() =>
         {
             Debug.Log("Valve rotation completed!");
-            // TODO: Add logic here to update GameManager or trigger other events
         });
 
-        // Optionally, disable the collider to prevent further interactions
         GetComponent<Collider2D>().enabled = false;
     }
 }
