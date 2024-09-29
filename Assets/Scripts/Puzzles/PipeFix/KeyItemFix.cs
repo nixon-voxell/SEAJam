@@ -83,7 +83,7 @@ public class KeyItemFix : Puzzle
 
             _currentItem = Inventory.Singleton.GetCurrentActiveItem();
 
-            _ProgressionAction.Invoke(_ProgressionTimer / _ProgressionDuration);
+            _ProgressionAction?.Invoke(_ProgressionTimer / _ProgressionDuration);
             yield return null;
         }
 
