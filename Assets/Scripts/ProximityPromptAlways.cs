@@ -26,7 +26,7 @@ public class ProximityPromptAlways : MonoBehaviour, IInteractable
 
     private void Update()
     {
-        if (playerInRange && Input.GetKey(interactKey))
+        if (playerInRange && Input.GetKeyDown(interactKey))
         {
             Interact();
         }

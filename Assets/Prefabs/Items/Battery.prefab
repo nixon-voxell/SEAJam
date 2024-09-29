@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2931382532350669150}
-  - component: {fileID: 532396024662075295}
+  - component: {fileID: 734528165671187973}
   m_Layer: 0
   m_Name: Battery
   m_TagString: Untagged
@@ -118,7 +118,7 @@ Transform:
   - {fileID: 1879265328877469572}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &532396024662075295
+--- !u!114 &734528165671187973
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,13 +127,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2101739613560455639}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a64c800643510542b9bb532f818cca5, type: 3}
+  m_Script: {fileID: 11500000, guid: b8f37dcb61678d2499b4e1525bcfa015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Icon: {fileID: 21300000, guid: c680b0f9549b5e94695346089a49e1a4, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_PositionOffset: {x: 0, y: 0, z: 0}
-  m_Proximity: {fileID: 72976535871654226}
+  interactionRadius: 2
 --- !u!1001 &405622836725465772
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -150,10 +147,6 @@ PrefabInstance:
       propertyPath: _InteractionEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 333912988180237310, guid: a9932c9489f1601438431f2f97cf2d3d, type: 3}
-      propertyPath: _InteractionEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 532396024662075295}
     - target: {fileID: 333912988180237310, guid: a9932c9489f1601438431f2f97cf2d3d, type: 3}
       propertyPath: _InteractionEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -219,17 +212,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9932c9489f1601438431f2f97cf2d3d, type: 3}
---- !u!114 &72976535871654226 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 333912988180237310, guid: a9932c9489f1601438431f2f97cf2d3d, type: 3}
-  m_PrefabInstance: {fileID: 405622836725465772}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 087bd14768c65b248b507dacb6b0fd2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &6213853178565970754 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6024977756387117550, guid: a9932c9489f1601438431f2f97cf2d3d, type: 3}
