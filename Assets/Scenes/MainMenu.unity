@@ -1074,7 +1074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b92843258277a8145aed728c385df562, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_GameScene: LevelDesign
+  m_GameScene: MainLevel
   tutorialPrompt: {fileID: 874393279}
   playButton: {fileID: 1684347403}
   exitButton: {fileID: 421292607}
