@@ -55,47 +55,40 @@ public class PipeRepairTask : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNear = false;
-            isRepairing = false;
-            repairProgress = 0f;
+            StopRepairing();
             Debug.Log($"Player exited PipeRepairTask trigger area on {gameObject.name}.");
         }
     }
 
     private void Update()
     {
-        if (isPlayerNear)
+        if (isPlayerNear && HasPipeInInventory())
         {
-            if (GameManager.Singleton == null)
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                Debug.LogError("PipeRepairTask: GameManager.Singleton is null!");
-                return;
+                StartRepairing();
+            }
+            else if (Input.GetKeyUp(KeyCode.E))
+            {
+                StopRepairing();
             }
 
-            bool hasPipe = GameManager.Singleton.HasPipe();
-            Debug.Log($"Player near pipe on {gameObject.name}. Has pipe: {hasPipe}. IsRepairing: {isRepairing}");
-
-            if (hasPipe)
+            if (isRepairing)
             {
-                if (Input.GetKeyDown(KeyCode.E))
+                repairProgress += Time.deltaTime;
+                Debug.Log($"Repairing progress on {gameObject.name}: {repairProgress}/{repairTime}");
+                if (repairProgress >= repairTime)
                 {
-                    StartRepairing();
-                }
-                else if (Input.GetKeyUp(KeyCode.E))
-                {
-                    StopRepairing();
-                }
-
-                if (isRepairing)
-                {
-                    repairProgress += Time.deltaTime;
-                    Debug.Log($"Repairing progress on {gameObject.name}: {repairProgress}/{repairTime}");
-                    if (repairProgress >= repairTime)
-                    {
-                        RepairPipe();
-                    }
+                    CompletePipeRepair();
                 }
             }
         }
+    }
+
+    private bool HasPipeInInventory()
+    {
+        UsableItemBase activeItem = Inventory.Singleton.GetCurrentActiveItem();
+        return activeItem != null && activeItem is Pipe;
     }
 
     private void StartRepairing()
@@ -111,11 +104,21 @@ public class PipeRepairTask : MonoBehaviour
         Debug.Log($"Stopped repairing pipe on {gameObject.name}.");
     }
 
-    private void RepairPipe()
+    private void CompletePipeRepair()
     {
         brokenPipeState.SetActive(false);
         fixedPipeState.SetActive(true);
-        GameManager.Singleton.UsePipe();
+        
+        UsableItemBase activeItem = Inventory.Singleton.GetCurrentActiveItem();
+        if (activeItem is Pipe pipe)
+        {
+            pipe.UseForRepair();
+        }
+        else
+        {
+            Debug.LogError("Active item is not a Pipe when completing repair!");
+        }
+
         Debug.Log($"Pipe repaired successfully on {gameObject.name}!");
         
         this.enabled = false;
