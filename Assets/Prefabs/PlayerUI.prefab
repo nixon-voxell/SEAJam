@@ -907,13 +907,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6ae0967d40ac54e959be4889737346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  geigerCounterImage: {fileID: 5314466169514699117}
-  onSprite: {fileID: 595124981, guid: a0ae38d2a77434b44b990f0d580af127, type: 3}
-  offSprite: {fileID: -405996670, guid: a0ae38d2a77434b44b990f0d580af127, type: 3}
+  geigerActiveSprite: {fileID: 595124981, guid: a0ae38d2a77434b44b990f0d580af127, type: 3}
+  geigerDeadSprite: {fileID: -405996670, guid: a0ae38d2a77434b44b990f0d580af127, type: 3}
+  currentImage: {fileID: 5314466169514699117}
+  flickerDuration: 0.2
+  flickerIntensity: 0.5
+  currentRadiation: 0
+  maxRadiation: 100
+  minRadiationRate: 5
+  maxRadiationRate: 50
+  radiationDecreaseRate: 5
   batteryLife: 100
   batteryDrainRate: 5
-  lowBatteryThreshold: 20
-  flickerInterval: 0.5
+  batteryLowThreshold: 20
+  isBatteryDead: 0
 --- !u!1 &4610720694468693271
 GameObject:
   m_ObjectHideFlags: 0
