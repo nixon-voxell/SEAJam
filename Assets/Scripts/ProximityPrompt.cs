@@ -31,6 +31,11 @@ public class ProximityPromptSystem : MonoBehaviour, IInteractable
         {
             Interact();
         }
+
+        if (playerInRange && Input.GetKeyUp(interactKey))
+        {
+            ShowPrompt();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

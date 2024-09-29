@@ -28,7 +28,7 @@ public class MapManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance != null)
+        if (Instance != null)
         {
             Destroy(gameObject);
             this.enabled = false;
@@ -37,13 +37,13 @@ public class MapManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        if(MapTilemap == null) MapTilemap = GetComponent<Tilemap>();
+        if (MapTilemap == null) MapTilemap = GetComponent<Tilemap>();
         SceneManager.sceneLoaded += ResetReferences;
     }
 
     private void OnDestroy()
     {
-        if(Instance == this)
+        if (Instance == this)
         {
             Instance = null;
             SceneManager.sceneLoaded -= ResetReferences;
@@ -72,6 +72,11 @@ public class MapManager : MonoBehaviour
 
     public void OnClickCloseMap()
     {
+        if (_InteractedMap == null)
+        {
+            return;
+        }
+
         _InteractedMap.CloseInteract();
         _InteractedMap = null;
         _MapCamera.enabled = false;
@@ -81,7 +86,7 @@ public class MapManager : MonoBehaviour
 
     public void GenerateMap()
     {
-        if(MapTilemap == null) MapTilemap = GetComponent<Tilemap>();
+        if (MapTilemap == null) MapTilemap = GetComponent<Tilemap>();
 
         BoundsInt _floorBounds = _WallTilemap.cellBounds;
 

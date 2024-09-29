@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
 
 public enum KeyItems
@@ -18,6 +19,7 @@ public class KeyItemFix : Puzzle
     [SerializeField] SpriteRenderer _RendererToReplaceWhenFixed;
     [SerializeField] SpriteRenderer _ProgressionMeter;
     [SerializeField] GameObject _Bar;
+    [SerializeField] UnityEvent _FixedEvent;
 
     #region Properties
 
@@ -68,7 +70,7 @@ public class KeyItemFix : Puzzle
             _Bar.SetActive(true);
             _ProgressionMeter.size = new Vector2(_ProgressionTimer / _ProgressionDuration, _ProgressionMeter.size.y);
 
-            if(_ProgressionTimer > _ProgressionDuration)
+            if (_ProgressionTimer > _ProgressionDuration)
             {
                 SolvedPuzzle();
                 break;
@@ -87,6 +89,7 @@ public class KeyItemFix : Puzzle
         Inventory.Singleton.RemoveItem();
         Destroy(_currentItem.gameObject);
         _RendererToReplaceWhenFixed.sprite = _FixedSprite;
+        _FixedEvent?.Invoke();
         base.SolvedPuzzle();
     }
 }
