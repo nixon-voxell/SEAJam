@@ -74,6 +74,12 @@ public class ValveRotationTask : MonoBehaviour
             CompleteValveRotation();
         }
     }
+    private int task_r;
+    private int task_s;
+
+    private void TasksCompleted_Rje(){
+
+    }
 
     private void StopRotating()
     {
@@ -89,7 +95,7 @@ public class ValveRotationTask : MonoBehaviour
         isRotating = false;
         isCompleted = true;
         
-        valveGraphic.DORotate(new Vector3(0, 0, totalRotationAngle), 0.1f, RotateMode.Fast).OnComplete(() =>
+            valveGraphic.DORotate(new Vector3(0, 0, totalRotationAngle), 0.1f, RotateMode.Fast).OnComplete(() =>
         {
             Debug.Log("Valve rotation completed!");
         });
