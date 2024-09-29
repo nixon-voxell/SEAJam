@@ -269,7 +269,7 @@ MonoBehaviour:
   navMeshMini: {fileID: 5103675657240025858}
   moveSpeed: 2
   idleTime: 2
-  detectionRadius: 10
+  detectionRadius: 5
   animator: {fileID: 3368611121806209895}
   idleUpAnim: {fileID: 7400000, guid: 47ff4e3130565a9438e70899872b1f6a, type: 2}
   idleDownAnim: {fileID: 7400000, guid: 8ba582d181be113439adc36eb61b5a68, type: 2}
