@@ -12,6 +12,7 @@ public class ProximityPromptSystem : MonoBehaviour, IInteractable
     [SerializeField] UnityEvent _InteractionEvent;
 
     private bool playerInRange = false;
+    public bool PlayerInRange => playerInRange;
     private bool isVisible = false;
     private SpriteRenderer promptIconRenderer;
 

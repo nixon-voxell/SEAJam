@@ -22,7 +22,7 @@ public abstract class Puzzle : MonoBehaviour, IInteractable
         PuzzleManager.Instance.AttachNewPuzzle(this);
     }
 
-    protected void SolvedPuzzle()
+    protected virtual void SolvedPuzzle()
     {
         Solved = true;
         _Interactor.gameObject.SetActive(false);
