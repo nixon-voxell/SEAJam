@@ -6,7 +6,5 @@ public class Pipe : UsableItemBase
 {
     public override void UseItem()
     {
-        Inventory.Singleton.RemoveItem();
-        Destroy(gameObject);
     }
 }
