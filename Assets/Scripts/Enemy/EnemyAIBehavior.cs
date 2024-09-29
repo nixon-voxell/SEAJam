@@ -4,14 +4,15 @@ using System.Collections;
 public class EnemyPatrolAI : MonoBehaviour
 {
     public NavMeshMini navMeshMini;
-    public float moveSpeed = 2f, idleTime = 2f;
+    public float moveSpeed = 2f, idleTime = 2f, detectionRadius = 5f;
     public Animator animator;
     public AnimationClip idleUpAnim, idleDownAnim, idleSideAnim, walkUpAnim, walkDownAnim, walkSideAnim;
 
     private Vector3 startPosition, endPosition, movement;
     private bool movingToEnd = true;
-
-     void Start()
+    private Transform playerTransform;
+    
+    private void Start()
     {
         if (navMeshMini == null)
         {
@@ -25,6 +26,7 @@ public class EnemyPatrolAI : MonoBehaviour
         transform.position = startPosition;
 
         animator ??= GetComponent<Animator>();
+        playerTransform = PlayerSingleton.Player.transform; 
         SetFacingDirection(!navMeshMini.startFacingRight);
 
         StartCoroutine(PatrolCoroutine());
@@ -36,7 +38,7 @@ public class EnemyPatrolAI : MonoBehaviour
         {
             // Move to end position
             yield return StartCoroutine(MoveToPosition(endPosition));
-            
+
             // Idle at end position
             yield return StartCoroutine(IdleAtPosition());
 
@@ -61,6 +63,7 @@ public class EnemyPatrolAI : MonoBehaviour
                 SetFacingDirection(movement.y > 0); // Face right when moving up (unchanged for vertical movement)
 
             UpdateAnimation();
+            CheckRadiationDistance(); // Check player's distance and modify radiation levels
             yield return null;
         }
     }
@@ -101,5 +104,22 @@ public class EnemyPatrolAI : MonoBehaviour
         Vector3 newScale = transform.localScale;
         newScale.x = Mathf.Abs(newScale.x) * (faceRight ? 1 : -1);
         transform.localScale = newScale;
+    }
+
+    // New method to check the distance between enemy and player
+    void CheckRadiationDistance()
+    {
+        if (playerTransform == null) return;
+
+        float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+        if (distanceToPlayer <= detectionRadius)
+        {
+            float radiationRate = Mathf.Lerp(GeigerCounterBatteryManager.Instance.minRadiationRate, GeigerCounterBatteryManager.Instance.maxRadiationRate, 1f - (distanceToPlayer / detectionRadius));
+            GeigerCounterBatteryManager.Instance.IncreaseRadiation(radiationRate);
+        }
+        else
+        {
+            GeigerCounterBatteryManager.Instance.DecreaseRadiation();
+        }
     }
 }

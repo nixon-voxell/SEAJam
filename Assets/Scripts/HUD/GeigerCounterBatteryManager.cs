@@ -1,86 +1,156 @@
 using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+using UnityEngine.UI;  // Required for working with UI Image
+using DG.Tweening;
 
 public class GeigerCounterBatteryManager : MonoBehaviour
 {
-    public Image geigerCounterImage;
-    public Sprite onSprite;
-    public Sprite offSprite;
-    public float batteryLife = 100f;
-    public float batteryDrainRate = 1f;
-    public float lowBatteryThreshold = 20f;
-    public float flickerInterval = 0.5f;
+    public static GeigerCounterBatteryManager Instance;
 
-    private bool isBatteryDead = false;
-    private UI_GeigerCounter_Behavior uiGeigerCounter;
+    public Sprite geigerActiveSprite;     // Sprite when the geiger counter is active
+    public Sprite geigerDeadSprite;       // Sprite when the geiger counter is dead
+    public Image currentImage;            // The UI Image component to display sprites
+    public float flickerDuration = 0.2f;  // Duration of flicker when draining
+    public float flickerIntensity = 0.5f; // Flicker intensity when draining
+
+    public float currentRadiation = 0f;
+    public float maxRadiation = 100f;
+    public float minRadiationRate = 5f;   // Minimum radiation rate when far from a source
+    public float maxRadiationRate = 50f;  // Maximum radiation rate when close to a source
+    public float radiationDecreaseRate = 5f;
+    public float batteryLife = 100f;      // Battery life percentage (0-100)
+    public float batteryDrainRate = 1f;   // Battery drain rate per second
+    public float batteryLowThreshold = 20f; // When battery is considered low
+
+    public bool isBatteryDead = false;
+
+    private void Awake()
+    {
+        // Singleton pattern
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
-        uiGeigerCounter = GetComponent<UI_GeigerCounter_Behavior>();
-        if (uiGeigerCounter == null)
+        // Ensure the starting sprite is the active one
+        if (currentImage != null && geigerActiveSprite != null)
         {
-            Debug.LogError("UI_GeigerCounter_Behavior not found on the same GameObject!");
+            currentImage.sprite = geigerActiveSprite;  // Set initial sprite to active state
         }
-
-        if (geigerCounterImage == null)
-        {
-            Debug.LogError("Geiger Counter Image not assigned in GeigerCounterBatteryManager!");
-        }
-
-        StartCoroutine(DrainBattery());
     }
 
-    private IEnumerator DrainBattery()
+    private void Update()
     {
-        while (batteryLife > 0)
+        if (!isBatteryDead)
         {
-            yield return new WaitForSeconds(1f);
-            batteryLife -= batteryDrainRate;
-            batteryLife = Mathf.Max(batteryLife, 0f);
+            DrainBatteryOverTime(); // Continuously drain battery over time
+            CheckBatteryStatus();   // Check if the battery should be considered dead
 
-            if (batteryLife <= lowBatteryThreshold && !isBatteryDead)
+            if (batteryLife <= batteryLowThreshold)
             {
-                StartCoroutine(FlickerEffect());
-            }
-
-            if (batteryLife <= 0)
-            {
-                BatteryDead();
+                // Flicker effect as battery drains
+                FlickerGeiger();
             }
         }
-    }
-
-    private IEnumerator FlickerEffect()
-    {
-        while (batteryLife > 0 && batteryLife <= lowBatteryThreshold)
+        else
         {
-            geigerCounterImage.color = new Color(1f, 1f, 1f, 0.5f);
-            yield return new WaitForSeconds(flickerInterval);
-            geigerCounterImage.color = Color.white;
-            yield return new WaitForSeconds(flickerInterval);
+            currentImage.sprite = geigerDeadSprite;  // Show dead sprite when battery is dead
         }
     }
 
-    private void BatteryDead()
+    public void IncreaseRadiation(float rate)
     {
-        isBatteryDead = true;
-        geigerCounterImage.sprite = offSprite;
-        geigerCounterImage.color = Color.white;
-        StopAllCoroutines();
+        if (!isBatteryDead)
+        {
+            currentRadiation += rate * Time.deltaTime;
+            currentRadiation = Mathf.Min(currentRadiation, maxRadiation);
+            Debug.Log($"Radiation increased to {currentRadiation}");
+        }
+        else
+        {
+            Debug.LogWarning("Cannot increase radiation, Geiger counter battery is dead.");
+        }
     }
 
-    public void ReplaceBattery()
+    public void DecreaseRadiation()
     {
-        batteryLife = 100f;
-        isBatteryDead = false;
-        geigerCounterImage.sprite = onSprite;
-        geigerCounterImage.color = Color.white;
-        StartCoroutine(DrainBattery());
+        if (!isBatteryDead)
+        {
+            currentRadiation -= radiationDecreaseRate * Time.deltaTime;
+            currentRadiation = Mathf.Max(currentRadiation, 0f);
+            Debug.Log($"Radiation decreased to {currentRadiation}");
+        }
+        else
+        {
+            Debug.LogWarning("Cannot decrease radiation, Geiger counter battery is dead.");
+        }
+    }
+
+    // Drain battery over time
+    private void DrainBatteryOverTime()
+    {
+        batteryLife -= batteryDrainRate * Time.deltaTime;
+        batteryLife = Mathf.Clamp(batteryLife, 0f, 100f);
+
+        if (batteryLife <= 0f)
+        {
+            DrainBattery();
+        }
+    }
+
+    // Check the battery status and log warnings if it's low
+    private void CheckBatteryStatus()
+    {
+        if (batteryLife <= batteryLowThreshold && batteryLife > 0f)
+        {
+            Debug.LogWarning("Geiger counter battery is low!");
+        }
     }
 
     public bool IsBatteryDead()
     {
         return isBatteryDead;
+    }
+
+    public void ReplaceBattery()
+    {
+        isBatteryDead = false;
+        batteryLife = 100f;
+        currentImage.sprite = geigerActiveSprite; // Switch back to active sprite
+        Debug.Log("Geiger counter battery replaced.");
+    }
+
+    public void DrainBattery()
+    {
+        isBatteryDead = true;
+        currentImage.sprite = geigerDeadSprite;  // Switch to dead sprite
+        Debug.Log("Geiger counter battery is now dead.");
+    }
+
+    // Get the current radiation level as a percentage
+    public float GetRadiationLevel()
+    {
+        return currentRadiation / maxRadiation;
+    }
+
+    // Flicker effect when battery is low (UI Image flickering)
+    private void FlickerGeiger()
+    {
+        if (currentImage != null)
+        {
+            currentImage.DOKill(); // Kill any existing flicker animations
+            currentImage.DOFade(flickerIntensity, flickerDuration).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
+            {
+                // Reset back to full alpha after flicker
+                currentImage.DOFade(1f, flickerDuration);
+            });
+        }
     }
 }

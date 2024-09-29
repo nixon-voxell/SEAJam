@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.SceneManagement; // For restarting the scene
 
 public class UI_GeigerCounter_Behavior : MonoBehaviour
 {
@@ -13,7 +14,6 @@ public class UI_GeigerCounter_Behavior : MonoBehaviour
     public float minShakeInterval = 0.1f;
 
     private Vector3 originalPosition;
-    private bool isShaking = false;
     private float nextShakeTime = 0f;
     private GeigerCounterBatteryManager batteryManager;
 
@@ -25,10 +25,26 @@ public class UI_GeigerCounter_Behavior : MonoBehaviour
         }
         originalPosition = transform.localPosition;
 
-        batteryManager = GetComponent<GeigerCounterBatteryManager>();
+        batteryManager = GeigerCounterBatteryManager.Instance;
         if (batteryManager == null)
         {
-            Debug.LogError("GeigerCounterBatteryManager not found on the same GameObject!");
+            Debug.LogError("GeigerCounterBatteryManager instance not found!");
+        }
+    }
+
+    void Update()
+    {
+        // Get the current radiation level from the singleton
+        float radiationLevel = batteryManager.GetRadiationLevel();
+
+        // Check if radiation level reached the maximum threshold (1.0)
+        if (radiationLevel >= 1.0f)
+        {
+            RestartScene(); // Restart the game or scene
+        }
+        else
+        {
+            UpdateUI(radiationLevel);
         }
     }
 
@@ -42,7 +58,7 @@ public class UI_GeigerCounter_Behavior : MonoBehaviour
         }
 
         UpdateText(radiationLevel);
-        
+
         if (radiationLevel > 0)
         {
             if (Time.time >= nextShakeTime)
@@ -61,8 +77,10 @@ public class UI_GeigerCounter_Behavior : MonoBehaviour
     {
         if (radiationText != null)
         {
-            radiationText.text = $"{radiationLevel:F2}";
-            
+            // Update the radiation level text based on the current value (keep between 0 and 1)
+            radiationText.text = $"{radiationLevel:F2}"; // Show decimal numbers like 0.32, 0.45, etc.
+
+            // Fade out the text if the radiation level exceeds the threshold
             if (radiationLevel > textFadeOutThreshold)
             {
                 float alpha = 1 - ((radiationLevel - textFadeOutThreshold) / (1 - textFadeOutThreshold));
@@ -78,13 +96,13 @@ public class UI_GeigerCounter_Behavior : MonoBehaviour
     private void ShakeUI(float radiationLevel)
     {
         float shakeIntensity = Mathf.Lerp(minShakeIntensity, maxShakeIntensity, radiationLevel);
-        
+
         transform.DOKill();
         transform.localPosition = originalPosition;
-        
+
         Vector2 randomDirection = Random.insideUnitCircle.normalized;
         Vector3 shakeOffset = new Vector3(randomDirection.x, randomDirection.y, 0) * shakeIntensity;
-        
+
         transform.DOLocalMove(originalPosition + shakeOffset, shakeDuration)
             .SetEase(Ease.OutElastic)
             .OnComplete(() => transform.localPosition = originalPosition);
@@ -100,5 +118,11 @@ public class UI_GeigerCounter_Behavior : MonoBehaviour
     {
         transform.DOKill();
         transform.localPosition = originalPosition;
+    }
+
+    private void RestartScene()
+    {
+        Debug.Log("Radiation reached maximum! Restarting scene...");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Restart the current scene
     }
 }
